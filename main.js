@@ -535,6 +535,206 @@ function initServiceModal() {
 }
 
 // ─── Stats countup + scramble ────────────
+// ─── Property ticker card ────────────────
+function initPropertyTicker() {
+  const slides  = document.querySelectorAll('.cta-ticker-slide');
+  const dotBtns = document.querySelectorAll('.cta-ticker-dot-btn');
+  const tags    = document.querySelectorAll('.cta-ticker-tag');
+  const countEl = document.getElementById('ticker-count');
+  if (!slides.length) return;
+
+  let cur = 0;
+  let timer;
+
+  function goTo(idx) {
+    slides[cur].classList.remove('active');
+    dotBtns[cur]?.classList.remove('active');
+    tags[cur]?.classList.remove('active');
+    cur = (idx + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    dotBtns[cur]?.classList.add('active');
+    tags[cur]?.classList.add('active');
+    if (countEl) countEl.textContent = `0${cur + 1} / 0${slides.length}`;
+  }
+
+  function autoplay() { timer = setInterval(() => goTo(cur + 1), 4000); }
+
+  dotBtns.forEach((btn, i) => {
+    btn.addEventListener('click', () => { clearInterval(timer); goTo(i); autoplay(); });
+  });
+
+  autoplay();
+}
+
+// ─── Enquiry Form (Typeform-style) ────────
+function initEnquiryForm() {
+  const section   = document.getElementById('enquiry-form');
+  const openBtn   = document.getElementById('open-enquiry');
+  const closeBtn  = document.getElementById('eq-close');
+  const progress  = document.getElementById('eq-progress');
+  const counter   = document.getElementById('eq-counter');
+  if (!section || !openBtn) return;
+
+  const TOTAL = 5; // question steps (0-4), step 5 = submit
+  const answers = {};
+  let current = 0;
+  let isOpen = false;
+
+  // ── open / close ──
+  function openForm() {
+    section.classList.add('open');
+    section.setAttribute('aria-hidden', 'false');
+    isOpen = true;
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const firstInput = section.querySelector('.eq-step.active .eq-input');
+    if (firstInput) setTimeout(() => firstInput.focus(), 500);
+  }
+
+  function closeForm() {
+    section.classList.remove('open');
+    section.setAttribute('aria-hidden', 'true');
+    isOpen = false;
+  }
+
+  openBtn.addEventListener('click', openForm);
+  if (closeBtn) closeBtn.addEventListener('click', closeForm);
+
+  // ── navigation ──
+  function updateUI(idx) {
+    counter.textContent = `${Math.min(idx + 1, TOTAL)} / ${TOTAL}`;
+    const pct = (idx / TOTAL) * 100;
+    progress.style.width = pct + '%';
+  }
+
+  // glow positions per step — shifts the radial bg
+  const glowPositions = [
+    { x: '20%', y: '70%' },
+    { x: '70%', y: '40%' },
+    { x: '50%', y: '80%' },
+    { x: '30%', y: '30%' },
+    { x: '75%', y: '65%' },
+    { x: '50%', y: '50%' },
+  ];
+
+  function showStep(newIdx) {
+    const steps = section.querySelectorAll('.eq-step');
+    const cur = steps[current];
+    const next = steps[newIdx];
+    if (!next) return;
+
+    // exit current
+    if (cur) {
+      cur.classList.add('exit-up');
+      setTimeout(() => {
+        cur.classList.remove('active', 'exit-up');
+        cur.style.display = 'none';
+      }, 280);
+    }
+
+    // enter next
+    setTimeout(() => {
+      next.style.display = 'flex';
+      next.classList.add('enter-down');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          next.classList.add('active');
+          next.classList.remove('enter-down');
+          const inp = next.querySelector('.eq-input');
+          if (inp) inp.focus();
+        });
+      });
+    }, 200);
+
+    current = newIdx;
+    updateUI(newIdx);
+
+    // shift glow bg
+    const g = glowPositions[newIdx] || glowPositions[0];
+    section.querySelector('.eq-inner').style.setProperty('--glow-x', g.x);
+    section.querySelector('.eq-inner').style.setProperty('--glow-y', g.y);
+  }
+
+  function collectCurrent() {
+    const step = section.querySelectorAll('.eq-step')[current];
+    if (!step) return '';
+    const inp = step.querySelector('.eq-input');
+    if (inp) return inp.value.trim();
+    const sel = step.querySelector('.eq-option.selected');
+    if (sel) return sel.dataset.value || sel.textContent.trim();
+    return '';
+  }
+
+  function next() {
+    const val = collectCurrent();
+    // validate required steps
+    if ((current === 0 || current === 1) && !val) {
+      const inp = section.querySelectorAll('.eq-step')[current].querySelector('.eq-input');
+      if (inp) { inp.style.borderBottomColor = '#ef4444'; setTimeout(() => inp.style.borderBottomColor = '', 1200); }
+      return;
+    }
+    answers[current] = val;
+    if (current < TOTAL) {
+      showStep(current + 1);
+    }
+  }
+
+  // OK buttons
+  section.querySelectorAll('[data-next]').forEach(btn => {
+    btn.addEventListener('click', next);
+  });
+
+  // Enter key
+  section.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      const active = section.querySelector('.eq-step.active');
+      if (!active) return;
+      const isTextarea = document.activeElement.tagName === 'TEXTAREA';
+      if (!isTextarea) { e.preventDefault(); next(); }
+    }
+  });
+
+  // Option buttons (steps 2, 3)
+  section.querySelectorAll('.eq-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const parent = opt.closest('.eq-step');
+      parent.querySelectorAll('.eq-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      answers[current] = opt.dataset.value || opt.textContent.trim();
+      setTimeout(next, 300);
+    });
+  });
+
+  // ── submit ──
+  function buildMessage() {
+    const name   = answers[0] || 'Not provided';
+    const phone  = answers[1] || 'Not provided';
+    const intent = answers[2] || 'Not specified';
+    const budget = answers[3] || 'Not specified';
+    const note   = answers[4] || '';
+    return `Hi, I am ${name}. I am interested in: ${intent}. Budget: ${budget}. ${note ? 'Note: ' + note : ''} My phone: ${phone}`;
+  }
+
+  const sendWA = document.getElementById('eq-send-wa');
+  const sendEmail = document.getElementById('eq-send-email');
+
+  if (sendWA) {
+    sendWA.addEventListener('click', () => {
+      const msg = encodeURIComponent(buildMessage());
+      window.open(`https://wa.me/919731740060?text=${msg}`, '_blank');
+    });
+  }
+  if (sendEmail) {
+    sendEmail.addEventListener('click', () => {
+      const body = encodeURIComponent(buildMessage());
+      const sub  = encodeURIComponent('Property Enquiry from vittubharat.com');
+      window.open(`mailto:info@vittubharat.com?subject=${sub}&body=${body}`);
+    });
+  }
+
+  // init progress
+  updateUI(0);
+}
+
 function initStatsCountup() {
   const nums = document.querySelectorAll('.stat-num[data-target]');
   if (!nums.length) return;
@@ -595,6 +795,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initTestiSlider();
   initLevelCards();
   initScrollReveal();
+  initPropertyTicker();
+  initEnquiryForm();
   initStatsCountup();
   initServiceModal();
   initHowItWorks();
