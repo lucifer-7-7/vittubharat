@@ -2766,7 +2766,7 @@ h4 {
   text-align: right;
 }
 
-.section-label--white .label-star {
+.section-label--white  {
   color: rgba(255, 255, 255, 0.4);
 }
 
@@ -2897,18 +2897,30 @@ h4 {
 
 /* drag hint */
 .how-drag-hint {
-  text-align: center;
-  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.2);
+  color:var(--accent-2);
   padding: 0 0 28px;
   transition: opacity 600ms;
 }
 
 .how-drag-hint.hidden {
   opacity: 0;
+}
+
+.hint-arrow {
+  animation: hint-bounce 1.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes hint-bounce {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(8px); }
 }
 
 @media (max-width: 768px) {
@@ -3513,7 +3525,7 @@ h4 {
 /* mobile: 1 card wide */
 @media (max-width: 768px) {
   .team-card {
-    width: calc(100vw - 64px);
+    width: 75vw;
   }
 
   .team-header {
