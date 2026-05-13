@@ -9,12 +9,12 @@ let locoScroll;
 
 // ─── Navbar scroll state ─────────────────
 function initNavbar() {
-  const nb     = document.getElementById('nb');
+  const nb = document.getElementById('nb');
   const toggle = document.getElementById('nb-toggle');
-  const panel  = document.getElementById('nb-panel');
+  const panel = document.getElementById('nb-panel');
   if (!nb || !toggle) return;
 
-  function open()  {
+  function open() {
     nb.classList.add('open');
     toggle.setAttribute('aria-expanded', 'true');
     panel && panel.setAttribute('aria-hidden', 'false');
@@ -38,6 +38,17 @@ function initNavbar() {
   document.addEventListener('click', e => {
     if (!e.target.closest('#nb')) close();
   });
+
+  // Change nav bar color based on hero section
+  const stats = document.querySelector('.stats-strip');
+  if (stats && typeof gsap !== 'undefined') {
+    ScrollTrigger.create({
+      trigger: stats,
+      start: 'top 90%',
+      onEnter: () => nb.classList.add('past-hero'),
+      onLeaveBack: () => nb.classList.remove('past-hero')
+    });
+  }
 }
 
 // ─── Hero carousel (trip highlights) ────
@@ -153,7 +164,7 @@ function initFAQ() {
 
   // accordion with GSAP height animation
   items.forEach(item => {
-    const btn  = item.querySelector('.faq-btn');
+    const btn = item.querySelector('.faq-btn');
     const body = item.querySelector('.faq-body');
     if (!btn || !body) return;
 
@@ -226,13 +237,13 @@ function initInstructorSlider() {
 
 // ─── Testimonial slider ───────────────────
 function initTestiSlider() {
-  const pills   = document.querySelectorAll('.ut-pill');
+  const pills = document.querySelectorAll('.ut-pill');
   const quoteEl = document.getElementById('ut-quote');
-  const roleEl  = document.getElementById('ut-role');
+  const roleEl = document.getElementById('ut-role');
   if (!pills.length || !quoteEl || !roleEl) return;
 
   let active = 0;
-  let busy   = false;
+  let busy = false;
 
   function select(idx) {
     if (idx === active || busy) return;
@@ -245,7 +256,7 @@ function initTestiSlider() {
     setTimeout(() => {
       // swap content
       quoteEl.innerHTML = pills[idx].dataset.quote;
-      roleEl.innerHTML  = pills[idx].dataset.role;
+      roleEl.innerHTML = pills[idx].dataset.role;
 
       // swap active pill
       pills[active].classList.remove('ut-pill--active');
@@ -306,7 +317,7 @@ function initScrollReveal() {
 function initLocomotiveScroll() {
   const container = document.querySelector('[data-scroll-container]');
   if (!container) return;
-  
+
   locoScroll = new LocomotiveScroll({
     el: container,
     smooth: true,
@@ -362,11 +373,117 @@ function initRevealText() {
 }
 
 // ─── Why + Apart GSAP animations ─────────
+// ─── Footer ───────────────────────────────
+function initFooter() {
+  if (typeof gsap === 'undefined') return;
+
+  const footer = document.getElementById('site-footer');
+  const borderLine = footer?.querySelector('.footer-border-line');
+  const brandName = document.getElementById('footer-brand-name');
+  const col1 = document.getElementById('footer-col-1');
+  const col2 = document.getElementById('footer-col-2');
+  const wordmark = document.getElementById('footer-wordmark');
+  const copy = footer?.querySelector('.footer-copy');
+  if (!footer) return;
+
+  // ── 1. Border line draws left → right on enter ──
+  if (borderLine) {
+    gsap.to(borderLine, {
+      strokeDashoffset: 0,
+      duration: 1.2,
+      ease: 'power2.inOut',
+      scrollTrigger: {
+        trigger: footer,
+        start: 'top 92%',
+        toggleActions: 'play none none none'
+      }
+    });
+  }
+
+  // ── 2. Brand name + cols stagger up ──
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: footer,
+      start: 'top 80%',
+      toggleActions: 'play none none none'
+    }
+  });
+
+  if (brandName) {
+    tl.to(brandName, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' });
+  }
+  if (col1) tl.to(col1, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.5');
+  if (col2) tl.to(col2, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.5');
+
+  // ── 3. Wordmark scrubs horizontally with scroll (ScrollTrigger scrub) ──
+  if (wordmark) {
+    gsap.fromTo(wordmark,
+      { x: '-4%' },
+      {
+        x: '2%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: footer,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.2
+        }
+      }
+    );
+  }
+
+  // ── 4. Copyright fades in ──
+  if (copy) {
+    gsap.to(copy, {
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: copy,
+        start: 'top 95%',
+        toggleActions: 'play none none none'
+      }
+    });
+  }
+
+  // ── 5. Footer link hover: SVG underline draws in/out ──
+  footer.querySelectorAll('.footer-link').forEach(link => {
+    // inject SVG underline into each link
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'footer-link-ul');
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '1');
+    svg.setAttribute('viewBox', '0 0 200 1');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.style.cssText = 'position:absolute;bottom:0;left:0;pointer-events:none;overflow:visible;';
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', '0');
+    line.setAttribute('y1', '0.5');
+    line.setAttribute('x2', '200');
+    line.setAttribute('y2', '0.5');
+    line.setAttribute('stroke', 'currentColor');
+    line.setAttribute('stroke-width', '1');
+    line.style.cssText = 'stroke-dasharray:200;stroke-dashoffset:200;';
+    svg.appendChild(line);
+    link.appendChild(svg);
+
+    link.addEventListener('mouseenter', () => {
+      gsap.to(line, { strokeDashoffset: 0, duration: 0.32, ease: 'power2.out' });
+    });
+    link.addEventListener('mouseleave', () => {
+      gsap.to(line, {
+        strokeDashoffset: -200, duration: 0.25, ease: 'power2.in',
+        onComplete: () => gsap.set(line, { strokeDashoffset: 200 })
+      });
+    });
+  });
+}
+
 // ─── How It Works ────────────────────────
 function initHowItWorks() {
   const wrap = document.querySelector('.how-track-wrap');
   const steps = document.querySelectorAll('.how-step');
-  const hint  = document.getElementById('how-drag-hint');
+  const hint = document.getElementById('how-drag-hint');
   if (!wrap || !steps.length) return;
 
   // drag to scroll
@@ -415,71 +532,141 @@ function initHowItWorks() {
 function initWhyApartAnimations() {
   if (typeof gsap === 'undefined') return;
 
-  // Why top header
-  const whyTop = document.querySelector('[data-gsap-why-top]');
-  if (whyTop) {
-    const ioT = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        ioT.unobserve(e.target);
-        gsap.to(e.target, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' });
-      });
-    }, { threshold: 0.2 });
-    ioT.observe(whyTop);
+  const rows = document.querySelectorAll('[data-why-row]');
+  if (!rows.length) return;
+
+  const progressNum = document.getElementById('why-progress-num');
+  const headline = document.getElementById('why-headline');
+
+  // per-row headline text shown in sticky left panel
+  const headlineTexts = [
+    'Local knowledge\nno portal can\nreplicate.',
+    'Legal team\nempanelled\nwith banks.',
+    'Direct bank\npartnerships,\nfaster loans.',
+    'One team.\nSearch to\nregistration.',
+    '100 years of\ncombined\nexpertise.',
+  ];
+
+  function switchHeader(idx) {
+    if (!headline && !progressNum) return;
+    const tl = gsap.timeline();
+    // exit: slide up + fade
+    tl.to([headline, progressNum].filter(Boolean), {
+      y: -18, opacity: 0, duration: 0.22, ease: 'power2.in', stagger: 0.04
+    });
+    tl.call(() => {
+      if (progressNum) progressNum.textContent = `${String(idx + 1).padStart(2, '0')} / 05`;
+      if (headline) headline.innerHTML = headlineTexts[idx].replace(/\n/g, '<br>');
+    });
+    // enter: slide up from below + fade
+    tl.fromTo([headline, progressNum].filter(Boolean),
+      { y: 18, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.32, ease: 'power2.out', stagger: 0.05 }
+    );
   }
 
-  // Why cards — staggered slide up from bottom
-  const whyCards = document.querySelectorAll('[data-gsap-why]');
-  if (whyCards.length) {
-    gsap.set(whyCards, { opacity: 0, y: 60 });
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        io.unobserve(entry.target);
-        const idx = Array.from(whyCards).indexOf(entry.target);
-        gsap.to(entry.target, {
-          opacity: 1, y: 0,
-          duration: 0.8,
-          delay: idx * 0.12,
-          ease: 'power3.out'
-        });
-      });
-    }, { threshold: 0.15 });
-    whyCards.forEach(c => io.observe(c));
+  // ── ScrollTrigger per row ──
+  rows.forEach((row, idx) => {
+    ScrollTrigger.create({
+      trigger: row,
+      start: 'top 52%',
+      end: 'bottom 52%',
+      onEnter: () => switchHeader(idx),
+      onEnterBack: () => switchHeader(idx),
+    });
+  });
+
+  // Animate header into view
+  const header = document.getElementById('why-header');
+  if (header) {
+    gsap.from(header, {
+      opacity: 0, x: -24,
+      duration: 1, ease: 'power3.out',
+      scrollTrigger: {
+        trigger: header,
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
   }
 
-  // Apart left — fade + slide right
-  const apartLeft = document.querySelector('[data-gsap-apart-left]');
-  if (apartLeft) {
-    gsap.set(apartLeft, { opacity: 0, x: -32 });
-    const io2 = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        io2.unobserve(entry.target);
-        gsap.to(entry.target, { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' });
+  // CTA link arrow micro-bounce on load
+  const ctaLink = document.getElementById('why-cta-link');
+  if (ctaLink) {
+    const arrow = ctaLink.querySelector('.why-cta-arrow');
+    if (arrow) {
+      ctaLink.addEventListener('mouseenter', () => {
+        gsap.to(arrow, { x: 3, y: -3, duration: 0.2, ease: 'power2.out' });
       });
-    }, { threshold: 0.2 });
-    io2.observe(apartLeft);
+      ctaLink.addEventListener('mouseleave', () => {
+        gsap.to(arrow, { x: 0, y: 0, duration: 0.3, ease: 'power2.inOut' });
+      });
+    }
   }
 
-  // Apart items — staggered fade up
-  const apartItems = document.querySelectorAll('[data-gsap-apart]');
-  if (apartItems.length) {
-    gsap.set(apartItems, { opacity: 0, y: 28 });
-    const io3 = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        io3.unobserve(entry.target);
-        const idx = Array.from(apartItems).indexOf(entry.target);
-        gsap.to(entry.target, {
-          opacity: 1, y: 0,
-          duration: 0.65,
-          delay: idx * 0.08,
-          ease: 'power2.out'
-        });
+  // Each row: fade+translate in, then SVG path draws
+  rows.forEach((row, idx) => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: row,
+        start: 'top 78%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    // Row slides up + fades in
+    tl.to(row, {
+      opacity: 1, y: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      delay: idx * 0.04
+    });
+
+    // SVG paths draw in after row appears
+    const paths = row.querySelectorAll('.why-svg-path');
+    if (paths.length) {
+      // measure actual length per path
+      paths.forEach(path => {
+        try {
+          const len = path.getTotalLength ? path.getTotalLength() : 200;
+          gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
+          tl.to(path, {
+            strokeDashoffset: 0,
+            duration: 0.9,
+            ease: 'power2.inOut'
+          }, '-=0.4');
+        } catch (e) {
+          tl.to(path, { strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut' }, '-=0.4');
+        }
       });
-    }, { threshold: 0.1 });
-    apartItems.forEach(el => io3.observe(el));
+    }
+
+    // Number fades in with slight scale
+    const num = row.querySelector('.why-row-num');
+    if (num) {
+      tl.from(num, { opacity: 0, y: 8, duration: 0.4, ease: 'power2.out' }, 0.1);
+    }
+
+    // Title chars stagger — only if gsap SplitText unavailable, do word fade
+    const title = row.querySelector('.why-row-title');
+    if (title) {
+      tl.from(title, { opacity: 0, y: 12, duration: 0.5, ease: 'power2.out' }, 0.2);
+    }
+
+    const body = row.querySelector('.why-row-body');
+    if (body) {
+      tl.from(body, { opacity: 0, y: 8, duration: 0.5, ease: 'power2.out' }, 0.35);
+    }
+  });
+
+  // Horizontal rule micro — left border on why-wrap animates width
+  const wrap = document.querySelector('.why-wrap');
+  if (wrap) {
+    gsap.from(wrap, {
+      opacity: 0,
+      duration: 0.4, ease: 'none',
+      scrollTrigger: { trigger: wrap, start: 'top 90%' }
+    });
   }
 }
 
@@ -501,14 +688,14 @@ function initServiceModal() {
   // GSAP quickTo for smooth following — fall back to direct set if no GSAP
   let moveModal, moveCursor;
   if (typeof gsap !== 'undefined') {
-    const xModal  = gsap.quickTo(modal,  'left', { duration: 0.8, ease: 'power3' });
-    const yModal  = gsap.quickTo(modal,  'top',  { duration: 0.8, ease: 'power3' });
+    const xModal = gsap.quickTo(modal, 'left', { duration: 0.8, ease: 'power3' });
+    const yModal = gsap.quickTo(modal, 'top', { duration: 0.8, ease: 'power3' });
     const xCursor = gsap.quickTo(cursor, 'left', { duration: 0.5, ease: 'power3' });
-    const yCursor = gsap.quickTo(cursor, 'top',  { duration: 0.5, ease: 'power3' });
-    moveModal  = (x, y) => { xModal(x);  yModal(y);  };
+    const yCursor = gsap.quickTo(cursor, 'top', { duration: 0.5, ease: 'power3' });
+    moveModal = (x, y) => { xModal(x); yModal(y); };
     moveCursor = (x, y) => { xCursor(x); yCursor(y); };
   } else {
-    moveModal  = (x, y) => { modal.style.left  = x + 'px'; modal.style.top  = y + 'px'; };
+    moveModal = (x, y) => { modal.style.left = x + 'px'; modal.style.top = y + 'px'; };
     moveCursor = (x, y) => { cursor.style.left = x + 'px'; cursor.style.top = y + 'px'; };
   }
 
@@ -536,10 +723,104 @@ function initServiceModal() {
 
 // ─── Stats countup + scramble ────────────
 // ─── Property ticker card ────────────────
+// ─── Contact CTA left panel GSAP ─────────
+function initContactCTA() {
+  if (typeof gsap === 'undefined') return;
+
+  const panel = document.getElementById('cta-left-panel');
+  if (!panel) return;
+
+  const lines = panel.querySelectorAll('.cta-line');
+  const divider = panel.querySelector('.cta-divider-line');
+  const sub = document.getElementById('cta-sub');
+  const address = document.getElementById('cta-address');
+  const enquire = document.getElementById('open-enquiry');
+  const waBtn = document.getElementById('cta-wa-btn');
+
+  // ── set initial states ──
+  gsap.set(lines, { yPercent: 110 });         // below clip
+  gsap.set([sub, address].filter(Boolean), { opacity: 0, y: 16 });
+  gsap.set([enquire, waBtn].filter(Boolean), { opacity: 0, y: 12 });
+  if (divider) gsap.set(divider, { strokeDashoffset: 400 });
+
+  // ── entrance timeline — triggered by scroll ──
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: panel,
+      start: 'top 72%',
+      toggleActions: 'play none none none'
+    }
+  });
+
+  // Lines reveal: each slides up from clip one by one
+  tl.to(lines, {
+    yPercent: 0,
+    duration: 0.9,
+    ease: 'power4.out',
+    stagger: 0.12
+  });
+
+  // Divider draws left → right
+  if (divider) {
+    tl.to(divider, {
+      strokeDashoffset: 0,
+      duration: 0.8,
+      ease: 'power2.inOut'
+    }, '-=0.3');
+  }
+
+  // Sub text fades up
+  if (sub) {
+    tl.to(sub, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4');
+  }
+
+  // Meta row fades
+  if (address) {
+    tl.to(address, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.3');
+  }
+
+  // Buttons stagger in
+  [enquire, waBtn].filter(Boolean).forEach((el, i) => {
+    tl.to(el, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, `-=0.${i === 0 ? 3 : 2}`);
+  });
+
+  // ── enquire button micro-interactions ──
+  if (enquire) {
+    const ulLine = enquire.querySelector('.cta-ul-line');
+    const arrowEl = enquire.querySelector('.cta-btn-arrow');
+
+    enquire.addEventListener('mouseenter', () => {
+      // underline draws in
+      if (ulLine) gsap.to(ulLine, { strokeDashoffset: 0, duration: 0.38, ease: 'power2.out' });
+      // arrow nudges right
+      if (arrowEl) gsap.to(arrowEl, { x: 5, duration: 0.22, ease: 'power2.out' });
+    });
+
+    enquire.addEventListener('mouseleave', () => {
+      // underline retracts from left → erases right
+      if (ulLine) gsap.to(ulLine, {
+        strokeDashoffset: -200, duration: 0.3, ease: 'power2.in',
+        onComplete: () => gsap.set(ulLine, { strokeDashoffset: 200 })
+      });
+      if (arrowEl) gsap.to(arrowEl, { x: 0, duration: 0.25, ease: 'power2.inOut' });
+    });
+  }
+
+  // ── WhatsApp btn: text nudges on hover ──
+  if (waBtn) {
+    waBtn.addEventListener('mouseenter', () => {
+      gsap.to(waBtn, { x: 4, duration: 0.2, ease: 'power2.out' });
+    });
+    waBtn.addEventListener('mouseleave', () => {
+      gsap.to(waBtn, { x: 0, duration: 0.3, ease: 'power2.inOut' });
+    });
+  }
+}
+
 function initPropertyTicker() {
-  const slides  = document.querySelectorAll('.cta-ticker-slide');
+  const slides = document.querySelectorAll('.cta-ticker-slide');
   const dotBtns = document.querySelectorAll('.cta-ticker-dot-btn');
-  const tags    = document.querySelectorAll('.cta-ticker-tag');
+  const tags = document.querySelectorAll('.cta-ticker-tag');
   const countEl = document.getElementById('ticker-count');
   if (!slides.length) return;
 
@@ -568,11 +849,11 @@ function initPropertyTicker() {
 
 // ─── Enquiry Form (Typeform-style) ────────
 function initEnquiryForm() {
-  const section   = document.getElementById('enquiry-form');
-  const openBtn   = document.getElementById('open-enquiry');
-  const closeBtn  = document.getElementById('eq-close');
-  const progress  = document.getElementById('eq-progress');
-  const counter   = document.getElementById('eq-counter');
+  const section = document.getElementById('enquiry-form');
+  const openBtn = document.getElementById('open-enquiry');
+  const closeBtn = document.getElementById('eq-close');
+  const progress = document.getElementById('eq-progress');
+  const counter = document.getElementById('eq-counter');
   if (!section || !openBtn) return;
 
   const TOTAL = 5; // question steps (0-4), step 5 = submit
@@ -706,11 +987,11 @@ function initEnquiryForm() {
 
   // ── submit ──
   function buildMessage() {
-    const name   = answers[0] || 'Not provided';
-    const phone  = answers[1] || 'Not provided';
+    const name = answers[0] || 'Not provided';
+    const phone = answers[1] || 'Not provided';
     const intent = answers[2] || 'Not specified';
     const budget = answers[3] || 'Not specified';
-    const note   = answers[4] || '';
+    const note = answers[4] || '';
     return `Hi, I am ${name}. I am interested in: ${intent}. Budget: ${budget}. ${note ? 'Note: ' + note : ''} My phone: ${phone}`;
   }
 
@@ -726,7 +1007,7 @@ function initEnquiryForm() {
   if (sendEmail) {
     sendEmail.addEventListener('click', () => {
       const body = encodeURIComponent(buildMessage());
-      const sub  = encodeURIComponent('Property Enquiry from vittubharat.com');
+      const sub = encodeURIComponent('Property Enquiry from vittubharat.com');
       window.open(`mailto:info@vittubharat.com?subject=${sub}&body=${body}`);
     });
   }
@@ -795,6 +1076,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initTestiSlider();
   initLevelCards();
   initScrollReveal();
+  initContactCTA();
+  initFooter();
   initPropertyTicker();
   initEnquiryForm();
   initStatsCountup();
@@ -810,7 +1093,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let targetX = 0, targetY = 0;
     let currentX = 0, currentY = 0;
     let isHovering = false;
-    
+
     function animateSpotlight() {
       if (!isHovering) return;
       currentX += (targetX - currentX) * 0.12;
@@ -841,3 +1124,128 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// ─── Hero Sound Icon ──────────────────────
+function initHeroSound() {
+  const btn = document.getElementById('hero-sound-btn');
+  if (!btn) return;
+
+  let isMuted = false;
+
+  btn.addEventListener('click', () => {
+    isMuted = !isMuted;
+    btn.classList.toggle('muted', isMuted);
+
+    // Trigger shake animation on the SVG
+    btn.classList.remove('shake');
+    void btn.offsetWidth; // reflow to restart animation
+    btn.classList.add('shake');
+    btn.addEventListener('animationend', () => btn.classList.remove('shake'), { once: true });
+
+    btn.setAttribute('aria-label', isMuted ? 'Unmute' : 'Mute');
+  });
+}
+
+initHeroSound();
+
+// ─── Stats Scramble Counter ────────────────
+function initStatsCounter() {
+  const statNums = document.querySelectorAll('.stat-num');
+  if (!statNums.length) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        el.classList.add('counted');
+
+        const target = parseInt(el.getAttribute('data-target') || 0, 10);
+        const suffix = el.getAttribute('data-suffix') || '';
+
+        const duration = 1800; // ms
+        const startTime = performance.now();
+
+        function update(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+
+          // easeOutExpo for buttery smooth deceleration
+          const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+
+          let currentVal = Math.floor(target * ease);
+
+          // Scramble effect: show some fast random numbers during the early phase
+          if (progress < 0.6 && Math.random() > 0.4) {
+            currentVal = Math.floor(Math.random() * target);
+          }
+
+          el.textContent = currentVal + suffix;
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            el.textContent = target + suffix;
+          }
+        }
+
+        requestAnimationFrame(update);
+        obs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  statNums.forEach(el => observer.observe(el));
+}
+
+initStatsCounter();
+
+// ─── Text Roll Hover Effect ────────────────
+function initTextRoll() {
+  const titles = document.querySelectorAll('.hero-title');
+
+  titles.forEach(el => {
+    const text = el.textContent.trim();
+    el.innerHTML = '';
+
+    // Split by spaces to handle word-by-word hovering
+    const words = text.split(' ');
+    const STAGGER = 0.035;
+
+    words.forEach((word, wordIdx) => {
+      const wordWrap = document.createElement('span');
+      wordWrap.className = 'text-roll-word';
+
+      const len = word.length;
+      for (let i = 0; i < len; i++) {
+        const char = word[i];
+        const delay = STAGGER * Math.abs(i - (len - 1) / 2);
+
+        const charWrap = document.createElement('span');
+        charWrap.className = 'text-roll-char-wrap';
+
+        const span1 = document.createElement('span');
+        span1.className = 'text-roll-char';
+        span1.textContent = char;
+        span1.style.transitionDelay = `${delay}s`;
+
+        const span2 = document.createElement('span');
+        span2.className = 'text-roll-char text-roll-char-clone';
+        span2.textContent = char;
+        span2.style.transitionDelay = `${delay}s`;
+
+        charWrap.appendChild(span1);
+        charWrap.appendChild(span2);
+        wordWrap.appendChild(charWrap);
+      }
+
+      el.appendChild(wordWrap);
+
+      // Add a raw space between words (except after the last word)
+      if (wordIdx < words.length - 1) {
+        el.appendChild(document.createTextNode(' '));
+      }
+    });
+  });
+}
+
+initTextRoll();

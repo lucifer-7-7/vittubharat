@@ -36,7 +36,7 @@
 </head>
 <body>
 
-<!-- NAVBAR — Nike-style bottom-right pill -->
+<!-- NAVBAR bottom-right pill -->
 <div class="nb" id="nb">
 
   <!-- expanded panel — slides up -->
@@ -51,7 +51,7 @@
 
   <!-- trigger bar — always visible -->
   <div class="nb-bar">
-    <a href="#hero" class="nb-logo">Vittu Bharat</a>
+    <a href="#contact" class="nb-logo"> Contact</a>
     <button class="nb-toggle" id="nb-toggle" aria-expanded="false">
       <span class="nb-label-menu">Menu</span>
       <span class="nb-label-close">Close</span>
@@ -70,11 +70,50 @@
   <div class="hero-content">
     <h1 class="hero-title">Vittu Bharat Associates</h1>
   </div>
-  <div class="hero-desc">
-    <p>Trusted real estate company in Udupi &amp; Mangalore. Property, legal, finance &amp; construction.</p>
-    <!-- <a href="#about" class="btn-hero">Learn More</a> -->
+  <!-- Bottom row: sound icon + description, sits above the navbar -->
+  <div class="hero-bottom-row">
+
+    <!-- Sound icon -->
+    <button class="hero-sound-btn" id="hero-sound-btn" aria-label="Toggle sound">
+      <div class="hero-sound-icon">
+        <svg class="hero-sound-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+          <path
+            fill="currentColor"
+            stroke="none"
+            d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"
+          />
+          <path
+            class="hero-sound-waves"
+            fill="none"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke="currentColor"
+            d="M16 9a5 5 0 0 1 0 6"
+          />
+          <path
+            class="hero-sound-waves"
+            fill="none"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke="currentColor"
+            d="M19.364 18.364a9 9 0 0 0 0-12.728"
+          />
+        </svg>
+        <div class="hero-sound-slash">
+          <div class="hero-sound-slash-inner"></div>
+        </div>
+      </div>
+    </button>
+
+    <!-- Description -->
+    <p class="hero-desc-text">Trusted real estate company in Udupi &amp; Mangalore. Property, legal, finance &amp; construction.</p>
+
   </div>
+
 </section>
+
 
 <!-- STATS STRIP -->
 <div class="stats-strip">
@@ -182,126 +221,113 @@
 </section>
 
 
-<!-- WHY CHOOSE US — interactive activity cards -->
+<!-- WHY CHOOSE US — editorial scroll list -->
 <section class="section-why" id="why">
-  <div class="why-inner">
+  <div class="why-wrap">
 
-    <div class="why-top" data-gsap-why-top>
-      <p class="section-label"><span class="label-star">✱</span> WHY VITTU BHARAT</p>
-      <h2 class="why-heading">Not a portal.<br>A team that stays.</h2>
-      <a href="#contact" class="why-enquire-btn">
-        Start an Enquiry
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    <!-- sticky left header -->
+    <div class="why-header" id="why-header">
+      <p class="section-label" id="why-label"><span class="label-star">✱</span> WHY US &nbsp;<span class="why-progress-num" id="why-progress-num">01 / 05</span></p>
+      <h2 class="why-headline" id="why-headline">Local knowledge<br>no portal can<br>replicate.</h2>
+      <a href="#contact" class="why-cta-link" id="why-cta-link">
+        Start an enquiry
+        <svg class="why-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
       </a>
     </div>
 
-    <div class="why-cards">
+    <!-- scrolling reasons -->
+    <div class="why-list" id="why-list">
 
-      <div class="why-card why-card--tall" data-gsap-why>
-        <div class="why-card-img">
-          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=640&q=80" alt="Local property knowledge">
-          <div class="why-card-overlay">
-            <span class="why-card-tag">15 years on the ground</span>
-          </div>
+      <div class="why-row" data-why-row>
+        <div class="why-row-left">
+          <span class="why-row-num">01</span>
+          <!-- animated SVG: location pin drawing in -->
+          <svg class="why-svg" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle class="why-svg-path" cx="20" cy="17" r="7"/>
+            <path class="why-svg-path" d="M20 10 C14 10 11 14 11 17 C11 23 20 32 20 32 C20 32 29 23 29 17 C29 14 26 10 20 10Z"/>
+          </svg>
         </div>
-        <div class="why-card-body">
-          <span class="why-card-num">01</span>
-          <h3 class="why-card-title">We know every street in Udupi and Mangalore</h3>
-          <p class="why-card-desc">From Brahmagiri to Bejai, Manipal to Mangalore city, we know which pockets grow in value and which ones to avoid. This is 15 years of real deals, not data from a portal.</p>
-          <a href="#contact" class="why-card-link">
-            Ask about a location
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-          </a>
+        <div class="why-row-right">
+          <h3 class="why-row-title">Local knowledge no portal can replicate</h3>
+          <p class="why-row-body">15 years of actual deals across Brahmagiri, Manipal, Bejai, and coastal Karnataka. We know which pockets grow and which ones to avoid.</p>
+        </div>
+        <div class="why-row-image">
+          <img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=600&q=80" alt="Local knowledge">
         </div>
       </div>
 
-      <div class="why-card why-card--split" data-gsap-why>
-        <div class="why-card-body">
-          <span class="why-card-num">02</span>
-          <h3 class="why-card-title">Legal. Finance. In one office.</h3>
-          <p class="why-card-desc">Our advocate has been empanelled with leading banks for 17 years. Our finance head has 15 years in banking. You do not need to run between offices. One call connects all three.</p>
-          <a href="#contact" class="why-card-link">
-            Get legal advice
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-          </a>
+      <div class="why-row" data-why-row>
+        <div class="why-row-left">
+          <span class="why-row-num">02</span>
+          <svg class="why-svg" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect class="why-svg-path" x="8" y="6" width="16" height="22" rx="1.5"/>
+            <line class="why-svg-path" x1="11" y1="13" x2="21" y2="13"/>
+            <line class="why-svg-path" x1="11" y1="17" x2="21" y2="17"/>
+            <line class="why-svg-path" x1="11" y1="21" x2="17" y2="21"/>
+            <circle class="why-svg-path" cx="28" cy="28" r="6"/>
+            <path class="why-svg-path" d="M25 28 L27.5 30.5 L31 26.5"/>
+          </svg>
         </div>
-        <div class="why-card-img why-card-img--short">
-          <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=640&q=80" alt="Legal documentation">
+        <div class="why-row-right">
+          <h3 class="why-row-title">Legal team empanelled with major banks</h3>
+          <p class="why-row-body">Deepa R Kotian, Advocate, 17 years. In-house title checks, agreements, registration. Lenders accept our reports directly — faster loan processing for you.</p>
         </div>
-      </div>
-
-      <div class="why-card why-card--accent" data-gsap-why>
-        <div class="why-card-body">
-          <span class="why-card-num">03</span>
-          <h3 class="why-card-title">From search to registration. Nothing handed off.</h3>
-          <p class="why-card-desc">Most agents find you a property and disappear. We stay for loans, legal, construction, and final handover. Six specialists, one team, no gaps.</p>
-          <a href="#contact" class="why-card-link why-card-link--white">
-            Talk to our team
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-          </a>
+        <div class="why-row-image">
+          <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&q=80" alt="Legal team">
         </div>
       </div>
 
-    </div>
+      <div class="why-row" data-why-row>
+        <div class="why-row-left">
+          <span class="why-row-num">03</span>
+          <svg class="why-svg" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect class="why-svg-path" x="7" y="14" width="12" height="16" rx="1"/>
+            <rect class="why-svg-path" x="21" y="8" width="12" height="22" rx="1"/>
+            <line class="why-svg-path" x1="7" y1="34" x2="33" y2="34"/>
+          </svg>
+        </div>
+        <div class="why-row-right">
+          <h3 class="why-row-title">Direct bank partnerships, faster approvals</h3>
+          <p class="why-row-body">Ajay Pandit, MBA, 15 years banking. Direct ties to leading lenders. Home loans and project finance done without the usual back-and-forth.</p>
+        </div>
+        <div class="why-row-image">
+          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80" alt="Bank partnerships">
+        </div>
+      </div>
 
-  </div>
-</section>
+      <div class="why-row" data-why-row>
+        <div class="why-row-left">
+          <span class="why-row-num">04</span>
+          <svg class="why-svg" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle class="why-svg-path" cx="20" cy="20" r="12"/>
+            <polyline class="why-svg-path" points="14,20 18,24 26,16"/>
+          </svg>
+        </div>
+        <div class="why-row-right">
+          <h3 class="why-row-title">One team. Search to registration, no gaps</h3>
+          <p class="why-row-body">Most agents disappear after the deal. We handle loans, legal, construction, and handover. Six specialists, zero handoffs, full accountability.</p>
+        </div>
+        <div class="why-row-image">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="One team">
+        </div>
+      </div>
 
-<!-- EXPERTISE — what sets us apart, icon list -->
-<section class="section-apart" id="expertise">
-  <div class="apart-inner">
+      <div class="why-row" data-why-row>
+        <div class="why-row-left">
+          <span class="why-row-num">05</span>
+          <svg class="why-svg" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path class="why-svg-path" d="M20 8 L23.5 15.5 L32 16.5 L26 22.5 L27.5 31 L20 27 L12.5 31 L14 22.5 L8 16.5 L16.5 15.5 Z"/>
+          </svg>
+        </div>
+        <div class="why-row-right">
+          <h3 class="why-row-title">100 years of combined expertise, same city</h3>
+          <p class="why-row-body">Six directors who built their careers in Udupi and Mangalore. Not relocated consultants — people who have worked these markets their entire professional lives.</p>
+        </div>
+        <div class="why-row-image">
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80" alt="100 years expertise">
+        </div>
+      </div>
 
-    <div class="apart-left" data-gsap-apart-left>
-      <h2 class="apart-heading">What Sets Us Apart</h2>
-      <p class="apart-sub">Trusted real estate expertise in Udupi and Mangalore. Six specialists. No outsourcing. Full accountability.</p>
-    </div>
-
-    <div class="apart-right">
-      <div class="apart-item" data-gsap-apart>
-        <div class="apart-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
-        <div>
-          <h4 class="apart-title">Property buying and selling</h4>
-          <p class="apart-desc">Residential, commercial and agricultural land across coastal Karnataka with 25 years of market knowledge.</p>
-        </div>
-      </div>
-      <div class="apart-item" data-gsap-apart>
-        <div class="apart-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        </div>
-        <div>
-          <h4 class="apart-title">Legal and documentation</h4>
-          <p class="apart-desc">Title verification, agreements and registration handled by our in-house advocate empanelled with major banks.</p>
-        </div>
-      </div>
-      <div class="apart-item" data-gsap-apart>
-        <div class="apart-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        </div>
-        <div>
-          <h4 class="apart-title">Home loans and finance</h4>
-          <p class="apart-desc">Direct bank partnerships for faster approvals. Home loans and project finance with EMI planning from an MBA specialist.</p>
-        </div>
-      </div>
-      <div class="apart-item" data-gsap-apart>
-        <div class="apart-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        </div>
-        <div>
-          <h4 class="apart-title">Construction and interiors</h4>
-          <p class="apart-desc">Residential and commercial construction with interior design, 3D visualization and turnkey delivery.</p>
-        </div>
-      </div>
-      <div class="apart-item" data-gsap-apart>
-        <div class="apart-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div>
-          <h4 class="apart-title">Single point of contact</h4>
-          <p class="apart-desc">No handoffs, no referrals. One team handles everything from first conversation to final registration.</p>
-        </div>
-      </div>
     </div>
 
   </div>
@@ -790,134 +816,128 @@
 <!-- CONTACT CTA — full bleed dark -->
 <section class="section-contact-cta" id="contact">
 
-  <!-- left panel: dark, text + CTAs fill height -->
-  <div class="cta-left">
+  <!-- left panel -->
+  <div class="cta-left" id="cta-left-panel">
     <div class="cta-left-inner">
-      <p class="section-label section-label--white"><span class="label-star">✱</span> GET IN TOUCH</p>
-      <h2 class="cta-main-heading">Property in Udupi &amp;<br>Mangalore, handled.</h2>
-      <p class="cta-sub">One call connects you to the right specialist. We respond same day, every day.</p>
 
-      <div class="cta-contact-chips">
-        <a href="mailto:info@vittubharat.com" class="cta-chip">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          info@vittubharat.com
-        </a>
-        <a href="tel:+91" class="cta-chip">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          +91 — (to be updated)
-        </a>
-        <span class="cta-chip cta-chip--muted">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Brahmagiri, Udupi
-        </span>
+      <!-- each line clipped individually for reveal animation -->
+      <div class="cta-headline-block" id="cta-heading">
+        <div class="cta-line-wrap"><span class="cta-line">Tell us what</span></div>
+        <div class="cta-line-wrap"><span class="cta-line">you need in</span></div>
+        <div class="cta-line-wrap cta-line-accent"><span class="cta-line">Udupi.</span></div>
       </div>
 
-      <div class="cta-btns">
+      <!-- animated divider -->
+      <svg class="cta-divider-svg" id="cta-divider" width="100%" height="1" viewBox="0 0 400 1" preserveAspectRatio="none">
+        <line class="cta-divider-line" x1="0" y1="0.5" x2="400" y2="0.5" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+      </svg>
+
+      <p class="cta-sub" id="cta-sub">We put you through to the actual specialist — not a call centre. Tell us the property type, location, and budget. We take it from there.</p>
+
+      <div class="cta-meta-row" id="cta-address">
+        <span class="cta-meta-label">Office</span>
+        <span class="cta-meta-value">Brahmagiri, Udupi</span>
+        <span class="cta-meta-sep">·</span>
+        <span class="cta-meta-label">Hours</span>
+        <span class="cta-meta-value">Mon–Sat, 9am–7pm</span>
+      </div>
+
+      <div class="cta-btns" id="cta-btns">
+
+        <!-- underline-draw button -->
         <button class="cta-enquire-btn" id="open-enquiry">
-          Enquire Now
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          <span class="cta-btn-text">Send an enquiry</span>
+          <svg class="cta-btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line class="cta-arrow-h" x1="5" y1="12" x2="19" y2="12"/>
+            <polyline class="cta-arrow-tip" points="12 5 19 12 12 19"/>
+          </svg>
+          <svg class="cta-btn-underline" width="100%" height="1" viewBox="0 0 180 1" preserveAspectRatio="none">
+            <line class="cta-ul-line" x1="0" y1="0.5" x2="180" y2="0.5" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+          </svg>
         </button>
-        <a href="https://wa.me/919731740060" target="_blank" rel="noopener" class="cta-whatsapp-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+
+        <a href="https://wa.me/919731740060" target="_blank" rel="noopener" class="cta-whatsapp-btn" id="cta-wa-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           WhatsApp
         </a>
+
       </div>
+
     </div>
   </div>
 
-  <!-- right panel: full-height image with ticker overlay -->
+  <!-- right panel: single full-height image -->
   <div class="cta-right">
-    <div class="cta-ticker-card" id="cta-ticker">
-
-      <!-- slides -->
-      <div class="cta-ticker-track" id="ticker-track">
-        <div class="cta-ticker-slide active">
-          <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80" alt="Residential plot">
-        </div>
-        <div class="cta-ticker-slide">
-          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80" alt="Commercial space">
-        </div>
-        <div class="cta-ticker-slide">
-          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80" alt="Home loans">
-        </div>
-        <div class="cta-ticker-slide">
-          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80" alt="Agricultural land">
-        </div>
-      </div>
-
-      <!-- overlay: live badge top-left, info bottom -->
-      <div class="cta-ticker-overlay">
-        <div class="cta-ticker-top">
-          <span class="cta-ticker-live">
-            <span class="cta-ticker-dot"></span>
-            Active in Udupi &amp; Mangalore
-          </span>
-          <span class="cta-ticker-count" id="ticker-count">01 / 04</span>
-        </div>
-        <div class="cta-ticker-bottom">
-          <div class="cta-ticker-info-row" id="ticker-info">
-            <span class="cta-ticker-tag active" data-idx="0">Residential Plots</span>
-            <span class="cta-ticker-tag" data-idx="1">Commercial Spaces</span>
-            <span class="cta-ticker-tag" data-idx="2">Home Loans</span>
-            <span class="cta-ticker-tag" data-idx="3">Agricultural Land</span>
-          </div>
-          <div class="cta-ticker-dots" id="ticker-dots">
-            <button class="cta-ticker-dot-btn active" data-idx="0"></button>
-            <button class="cta-ticker-dot-btn" data-idx="1"></button>
-            <button class="cta-ticker-dot-btn" data-idx="2"></button>
-            <button class="cta-ticker-dot-btn" data-idx="3"></button>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <img
+      class="cta-right-img"
+      src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&q=85"
+      alt="Property in Udupi"
+      loading="lazy">
+   
   </div>
 
 </section>
 
-<!-- FOOTER -->
-<footer class="site-footer">
+<!-- FOOTER — redesigned -->
+<footer class="site-footer" id="site-footer">
+
+  <!-- animated top border SVG -->
+  <svg class="footer-border-svg" width="100%" height="1" viewBox="0 0 1200 1" preserveAspectRatio="none">
+    <line class="footer-border-line" x1="0" y1="0.5" x2="1200" y2="0.5" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+  </svg>
+
   <div class="footer-inner">
-    <div class="footer-top-row">
-      <div class="footer-brand">
-        <p class="footer-logo">Vittu Bharat Associates LLP</p>
-        <p class="footer-logo-sub">Real Estate &nbsp;&middot;&nbsp; Legal &nbsp;&middot;&nbsp; Finance &nbsp;&middot;&nbsp; Construction</p>
-        <address class="footer-address">
-          3rd floor, Sriram Building, Brahmagiri,<br>
-          Udupi, Karnataka 576101, India
+
+    <div class="footer-grid" id="footer-grid">
+
+      <div class="footer-brand-col">
+        <p class="footer-brand-name" id="footer-brand-name">Vittu Bharat<br>Associates LLP</p>
+        <p class="footer-brand-sub">Real Estate · Legal · Finance · Construction</p>
+        <address class="footer-addr">
+          3rd floor, Sriram Building,<br>
+          Brahmagiri, Udupi 576101
         </address>
-        <div class="footer-contacts">
-          <a href="mailto:info@vittubharat.com" class="footer-contact-row">
-            <span class="footer-contact-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
-            info@vittubharat.com
-          </a>
-          <a href="tel:+91" class="footer-contact-row">
-            <span class="footer-contact-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
-            +91 — (to be updated)
-          </a>
-        </div>
       </div>
-      <div class="footer-nav-col">
-        <p class="footer-nav-heading">COMPANY</p>
-        <a href="#about">About Us <span>&#8599;</span></a>
-        <a href="#why">Why Choose Us <span>&#8599;</span></a>
-        <a href="#process">Our Process <span>&#8599;</span></a>
-        <a href="#faq">FAQ <span>&#8599;</span></a>
+
+      <div class="footer-links-col" id="footer-col-1">
+        <p class="footer-col-label">Navigate</p>
+        <nav class="footer-nav">
+          <a href="#about" class="footer-link">About Us</a>
+          <a href="#services" class="footer-link">Services</a>
+          <a href="#why" class="footer-link">Why Us</a>
+          <a href="#faq" class="footer-link">FAQ</a>
+          <a href="#contact" class="footer-link">Contact</a>
+        </nav>
       </div>
-      <div class="footer-nav-col">
-        <p class="footer-nav-heading">OUR SERVICES</p>
-        <a href="https://richmanassets.com" target="_blank" rel="noopener" class="accent-link">Rich Man Assets &#8599;</a>
-        <a href="#leadership">Leadership Team <span>&#8599;</span></a>
-        <a href="#directors">Directors <span>&#8599;</span></a>
-        <a href="#contact">Contact <span>&#8599;</span></a>
+
+      <div class="footer-links-col" id="footer-col-2">
+        <p class="footer-col-label">Reach us</p>
+        <nav class="footer-nav">
+          <a href="mailto:info@vittubharat.com" class="footer-link">info@vittubharat.com</a>
+          <a href="tel:+91" class="footer-link">+91 — to be updated</a>
+          <a href="https://wa.me/919731740060" target="_blank" rel="noopener" class="footer-link">WhatsApp</a>
+          <a href="https://richmanassets.com" target="_blank" rel="noopener" class="footer-link footer-link--accent">Rich Man Assets ↗</a>
+        </nav>
       </div>
+
     </div>
-    <div class="footer-wordmark" aria-hidden="true">vittubharat</div>
+
+    <div class="footer-bottom" id="footer-bottom">
+      <p class="footer-wordmark" id="footer-wordmark" aria-hidden="true">vittubharat</p>
+      <p class="footer-copy">© 2025 Vittu Bharat Associates LLP. Udupi, Karnataka.</p>
+    </div>
+
   </div>
 </footer>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+  }
+</script>
 <script src="main.js"></script>
 </body>
 </html>
