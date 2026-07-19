@@ -375,118 +375,76 @@ function initRevealText() {
 // ─── Why + Apart GSAP animations ─────────
 // ─── Footer ───────────────────────────────
 function initFooter() {
-  if (typeof gsap === 'undefined') return;
-
   const footer = document.getElementById('site-footer');
-  const borderLine = footer?.querySelector('.footer-border-line');
-  const brandName = document.getElementById('footer-brand-name');
-  const col1 = document.getElementById('footer-col-1');
-  const col2 = document.getElementById('footer-col-2');
-  const wordmark = document.getElementById('footer-wordmark');
-  const copy = footer?.querySelector('.footer-copy');
   if (!footer) return;
 
-  // ── 1. Border line draws left → right on enter ──
-  if (borderLine) {
-    gsap.to(borderLine, {
-      strokeDashoffset: 0,
-      duration: 1.2,
-      ease: 'power2.inOut',
-      scrollTrigger: {
-        trigger: footer,
-        start: 'top 92%',
-        toggleActions: 'play none none none'
-      }
-    });
-  }
+  const cols = footer.querySelectorAll('.footer-links-col, .footer-brand-col');
+  const wordmark = document.getElementById('footer-wordmark');
+  const copy = footer.querySelector('.footer-copy');
 
-  // ── 2. Brand name + cols stagger up ──
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: footer,
-      start: 'top 80%',
-      toggleActions: 'play none none none'
-    }
-  });
-
-  if (brandName) {
-    tl.to(brandName, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' });
-  }
-  if (col1) tl.to(col1, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.5');
-  if (col2) tl.to(col2, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.5');
-
-  // ── 3. Wordmark scrubs horizontally with scroll (ScrollTrigger scrub) ──
-  if (wordmark) {
-    gsap.fromTo(wordmark,
-      { x: '-4%' },
-      {
-        x: '2%',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: footer,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.2
+  if (typeof gsap !== 'undefined') {
+    // ── Stagger reveal cols ──
+    if (cols.length && typeof ScrollTrigger !== 'undefined') {
+      gsap.fromTo(cols,
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: footer,
+            start: 'top 88%',
+            toggleActions: 'play none none none'
+          }
         }
-      }
-    );
+      );
+    }
   }
-
-  // ── 4. Copyright fades in ──
-  if (copy) {
-    gsap.to(copy, {
-      opacity: 1,
-      duration: 0.6,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: copy,
-        start: 'top 95%',
-        toggleActions: 'play none none none'
-      }
-    });
-  }
-
-  // ── 5. Footer link hover: SVG underline draws in/out ──
-  footer.querySelectorAll('.footer-link').forEach(link => {
-    // inject SVG underline into each link
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('class', 'footer-link-ul');
-    svg.setAttribute('width', '100%');
-    svg.setAttribute('height', '1');
-    svg.setAttribute('viewBox', '0 0 200 1');
-    svg.setAttribute('preserveAspectRatio', 'none');
-    svg.style.cssText = 'position:absolute;bottom:0;left:0;pointer-events:none;overflow:visible;';
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', '0');
-    line.setAttribute('y1', '0.5');
-    line.setAttribute('x2', '200');
-    line.setAttribute('y2', '0.5');
-    line.setAttribute('stroke', 'currentColor');
-    line.setAttribute('stroke-width', '1');
-    line.style.cssText = 'stroke-dasharray:200;stroke-dashoffset:200;';
-    svg.appendChild(line);
-    link.appendChild(svg);
-
-    link.addEventListener('mouseenter', () => {
-      gsap.to(line, { strokeDashoffset: 0, duration: 0.32, ease: 'power2.out' });
-    });
-    link.addEventListener('mouseleave', () => {
-      gsap.to(line, {
-        strokeDashoffset: -200, duration: 0.25, ease: 'power2.in',
-        onComplete: () => gsap.set(line, { strokeDashoffset: 200 })
-      });
-    });
-  });
 }
 
 // ─── How It Works ────────────────────────
 function initHowItWorks() {
+  const section = document.querySelector('.section-how');
   const wrap = document.querySelector('.how-track-wrap');
+  const track = document.querySelector('.how-track');
   const steps = document.querySelectorAll('.how-step');
   const hint = document.getElementById('how-drag-hint');
-  if (!wrap || !steps.length) return;
+  if (!section || !wrap || !track || !steps.length) return;
 
-  // drag to scroll
+  // Make steps visible and active for smooth horizontal scroll
+  steps.forEach(s => {
+    s.style.opacity = '1';
+    s.style.transform = 'none';
+    s.classList.add('in-view');
+  });
+
+  function getScrollAmount() {
+    return Math.max(0, track.scrollWidth - wrap.clientWidth);
+  }
+
+  // Pin section and scroll track horizontally driven by vertical page scroll
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const scrollAmount = getScrollAmount();
+    if (scrollAmount > 0) {
+      gsap.to(track, {
+        x: () => -getScrollAmount(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => `+=${getScrollAmount()}`,
+          pin: true,
+          pinSpacing: true,
+          scrub: 0.5,
+          invalidateOnRefresh: true
+        }
+      });
+    }
+  }
+
+  // Drag to scroll fallback
   let isDown = false, startX = 0, scrollLeft = 0;
   wrap.addEventListener('mousedown', e => {
     isDown = true;
@@ -507,26 +465,6 @@ function initHowItWorks() {
   wrap.addEventListener('scroll', () => {
     if (hint && wrap.scrollLeft > 40) hint.classList.add('hidden');
   }, { once: true });
-
-  // GSAP stagger entrance + line reveal
-  if (typeof gsap !== 'undefined') {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        io.unobserve(entry.target);
-        const idx = Array.from(steps).indexOf(entry.target);
-        gsap.to(entry.target, {
-          opacity: 1, y: 0,
-          duration: 0.8, delay: idx * 0.15,
-          ease: 'power3.out',
-          onComplete: () => entry.target.classList.add('in-view')
-        });
-      });
-    }, { threshold: 0.2 });
-    steps.forEach(s => io.observe(s));
-  } else {
-    steps.forEach(s => { s.style.opacity = '1'; s.style.transform = 'none'; s.classList.add('in-view'); });
-  }
 }
 
 function initWhyApartAnimations() {
@@ -736,11 +674,12 @@ function initContactCTA() {
   const address = document.getElementById('cta-address');
   const enquire = document.getElementById('open-enquiry');
   const waBtn = document.getElementById('cta-wa-btn');
+  const callBtn = document.getElementById('cta-call-btn');
 
   // ── set initial states ──
   gsap.set(lines, { yPercent: 110 });         // below clip
   gsap.set([sub, address].filter(Boolean), { opacity: 0, y: 16 });
-  gsap.set([enquire, waBtn].filter(Boolean), { opacity: 0, y: 12 });
+  gsap.set([waBtn, callBtn, enquire].filter(Boolean), { opacity: 0, y: 12 });
   if (divider) gsap.set(divider, { strokeDashoffset: 400 });
 
   // ── entrance timeline — triggered by scroll ──
@@ -780,7 +719,7 @@ function initContactCTA() {
   }
 
   // Buttons stagger in
-  [enquire, waBtn].filter(Boolean).forEach((el, i) => {
+  [waBtn, callBtn, enquire].filter(Boolean).forEach((el, i) => {
     tl.to(el, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, `-=0.${i === 0 ? 3 : 2}`);
   });
 
@@ -1153,10 +1092,43 @@ function initTeamMarquee() {
     clearTimeout(touchTimeout);
   }, { passive: true });
 
-  wrap.addEventListener('touchend', () => {
-    clearTimeout(touchTimeout);
-    touchTimeout = setTimeout(() => { isPaused = false; }, 800);
-  }, { passive: true });
+  // Button click navigation for prev / next arrows
+  const prevBtns = document.querySelectorAll('.team-prev-btn, #team-prev-hdr');
+  const nextBtns = document.querySelectorAll('.team-next-btn, #team-next-hdr');
+
+  prevBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      isPaused = true;
+      const card = track.querySelector('.team-card');
+      const stepDist = card ? (card.offsetWidth + 20) : 380;
+      const target = wrap.scrollLeft - stepDist;
+      if (typeof gsap !== 'undefined') {
+        gsap.to(wrap, { scrollLeft: target, duration: 0.45, ease: 'power2.out' });
+      } else {
+        wrap.scrollBy({ left: -stepDist, behavior: 'smooth' });
+      }
+      setTimeout(() => { isPaused = false; }, 1200);
+    });
+  });
+
+  nextBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      isPaused = true;
+      const card = track.querySelector('.team-card');
+      const stepDist = card ? (card.offsetWidth + 20) : 380;
+      const target = wrap.scrollLeft + stepDist;
+      if (typeof gsap !== 'undefined') {
+        gsap.to(wrap, { scrollLeft: target, duration: 0.45, ease: 'power2.out' });
+      } else {
+        wrap.scrollBy({ left: stepDist, behavior: 'smooth' });
+      }
+      setTimeout(() => { isPaused = false; }, 1200);
+    });
+  });
 
   requestAnimationFrame(step);
 }
