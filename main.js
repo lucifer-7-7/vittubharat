@@ -1064,6 +1064,103 @@ function initStatsCountup() {
   nums.forEach(el => io.observe(el));
 }
 
+// ─── Team Marquee (Auto-scroll + Manual drag) ───
+function initTeamMarquee() {
+  const wrap = document.querySelector('.team-marquee-wrap');
+  const track = document.querySelector('.team-marquee');
+  if (!wrap || !track) return;
+
+  let isPaused = false;
+  let isDown = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+  const speed = 0.8; // px per frame
+
+  function getHalfWidth() {
+    return track.scrollWidth / 2;
+  }
+
+  function normalizeScroll(val, halfWidth) {
+    if (halfWidth <= 0) return val;
+    let mod = val % halfWidth;
+    if (mod < 0) mod += halfWidth;
+    return mod;
+  }
+
+  function step() {
+    if (!isPaused && !isDown) {
+      wrap.scrollLeft += speed;
+      const half = getHalfWidth();
+      if (half > 0 && wrap.scrollLeft >= half) {
+        wrap.scrollLeft -= half;
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Handle manual trackpad/mousewheel/touch scrolling boundary reset
+  wrap.addEventListener('scroll', () => {
+    if (!isDown) {
+      const half = getHalfWidth();
+      if (half > 0) {
+        if (wrap.scrollLeft >= half) {
+          wrap.scrollLeft -= half;
+        } else if (wrap.scrollLeft <= 0) {
+          wrap.scrollLeft += half;
+        }
+      }
+    }
+  });
+
+  // Hover pause
+  wrap.addEventListener('mouseenter', () => { isPaused = true; });
+  wrap.addEventListener('mouseleave', () => {
+    isPaused = false;
+    isDown = false;
+    wrap.classList.remove('is-grabbing');
+  });
+
+  // Mouse Drag
+  wrap.addEventListener('mousedown', (e) => {
+    isDown = true;
+    isPaused = true;
+    wrap.classList.add('is-grabbing');
+    startX = e.pageX - wrap.offsetLeft;
+    startScrollLeft = wrap.scrollLeft;
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (isDown) {
+      isDown = false;
+      wrap.classList.remove('is-grabbing');
+    }
+  });
+
+  wrap.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - wrap.offsetLeft;
+    const walk = (x - startX) * 1.4;
+    const half = getHalfWidth();
+    const targetScroll = startScrollLeft - walk;
+    wrap.scrollLeft = normalizeScroll(targetScroll, half);
+  });
+
+  // Touch events for mobile drag & pause
+  let touchTimeout;
+  wrap.addEventListener('touchstart', () => {
+    isPaused = true;
+    clearTimeout(touchTimeout);
+  }, { passive: true });
+
+  wrap.addEventListener('touchend', () => {
+    clearTimeout(touchTimeout);
+    touchTimeout = setTimeout(() => { isPaused = false; }, 800);
+  }, { passive: true });
+
+  requestAnimationFrame(step);
+}
+
 // ─── INIT ─────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
@@ -1085,6 +1182,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHowItWorks();
   initWhyApartAnimations();
   initRevealText();
+  initTeamMarquee();
   initLocomotiveScroll();
 
   // ─── Footer Spotlight ─────────

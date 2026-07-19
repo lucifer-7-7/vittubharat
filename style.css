@@ -3344,10 +3344,21 @@ h4 {
 
 /* marquee container — clips overflow, shows exactly 3 cards */
 .team-marquee-wrap {
-  overflow: hidden;
-  /* fade edges */
-  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.team-marquee-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.team-marquee-wrap.is-grabbing {
+  cursor: grabbing;
 }
 
 /* scrolling track */
@@ -3355,21 +3366,6 @@ h4 {
   display: flex;
   gap: 20px;
   width: max-content;
-  animation: team-scroll 28s linear infinite;
-}
-
-.team-marquee-wrap:hover .team-marquee {
-  animation-play-state: paused;
-}
-
-@keyframes team-scroll {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(calc(-50%));
-  }
 }
 
 /* each card — sized so 3 fit in viewport */
@@ -3389,6 +3385,9 @@ h4 {
   aspect-ratio: 3/4;
   object-fit: cover;
   display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 .team-name-badge {
@@ -4887,9 +4886,12 @@ h4 {
   .section-steps,
   .section-pricing,
   .section-faq,
-  .section-team,
   .section-footer-cta {
     padding: 72px 24px;
+  }
+
+  .section-team {
+    padding: 72px 0;
   }
 
   .overview-grid,
