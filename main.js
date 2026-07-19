@@ -217,8 +217,10 @@ function initPricingAccordion() {
 // ─── Instructor slider ────────────────────
 function initInstructorSlider() {
   const slides = document.querySelectorAll('.instr-slide');
+  const sliderEl = document.querySelector('.instr-slider');
   if (!slides.length) return;
   let current = 0;
+  let autoTimer = null;
 
   function goTo(idx) {
     slides[current].classList.remove('active');
@@ -226,13 +228,28 @@ function initInstructorSlider() {
     slides[current].classList.add('active');
   }
 
-  // All nav buttons inside the slider share navigation
+  function startAuto() {
+    stopAuto();
+    autoTimer = setInterval(() => goTo(current + 1), 4000);
+  }
+
+  function stopAuto() {
+    if (autoTimer) clearInterval(autoTimer);
+  }
+
   document.querySelectorAll('.instr-prev').forEach(btn => {
-    btn.addEventListener('click', () => goTo(current - 1));
+    btn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
   });
   document.querySelectorAll('.instr-next').forEach(btn => {
-    btn.addEventListener('click', () => goTo(current + 1));
+    btn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
   });
+
+  if (sliderEl) {
+    sliderEl.addEventListener('mouseenter', stopAuto);
+    sliderEl.addEventListener('mouseleave', startAuto);
+  }
+
+  startAuto();
 }
 
 // ─── Testimonial slider ───────────────────
@@ -485,12 +502,18 @@ function initWhyApartAnimations() {
     '100 years of\ncombined\nexpertise.',
   ];
 
+  let currentIdx = -1;
   function switchHeader(idx) {
-    if (!headline && !progressNum) return;
+    if (idx === currentIdx || (!headline && !progressNum)) return;
+    currentIdx = idx;
+
+    // update active class on rows
+    rows.forEach((r, i) => r.classList.toggle('active', i === idx));
+
     const tl = gsap.timeline();
     // exit: slide up + fade
     tl.to([headline, progressNum].filter(Boolean), {
-      y: -18, opacity: 0, duration: 0.22, ease: 'power2.in', stagger: 0.04
+      y: -14, opacity: 0, duration: 0.18, ease: 'power2.in', stagger: 0.03
     });
     tl.call(() => {
       if (progressNum) progressNum.textContent = `${String(idx + 1).padStart(2, '0')} / 05`;
@@ -498,13 +521,15 @@ function initWhyApartAnimations() {
     });
     // enter: slide up from below + fade
     tl.fromTo([headline, progressNum].filter(Boolean),
-      { y: 18, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.32, ease: 'power2.out', stagger: 0.05 }
+      { y: 14, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.28, ease: 'power2.out', stagger: 0.04 }
     );
   }
 
-  // ── ScrollTrigger per row ──
+  // ── ScrollTrigger + Hover per row ──
   rows.forEach((row, idx) => {
+    row.addEventListener('mouseenter', () => switchHeader(idx));
+
     ScrollTrigger.create({
       trigger: row,
       start: 'top 52%',
@@ -514,12 +539,12 @@ function initWhyApartAnimations() {
     });
   });
 
-  // Animate header into view
+  // Animate header into view without transform (prevents breaking position: sticky)
   const header = document.getElementById('why-header');
   if (header) {
     gsap.from(header, {
-      opacity: 0, x: -24,
-      duration: 1, ease: 'power3.out',
+      opacity: 0,
+      duration: 0.8, ease: 'power3.out',
       scrollTrigger: {
         trigger: header,
         start: 'top 80%',
@@ -542,28 +567,25 @@ function initWhyApartAnimations() {
     }
   }
 
-  // Each row: fade+translate in, then SVG path draws
+  // Each row: fade+translate in cleanly, then SVG path draws
   rows.forEach((row, idx) => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: row,
-        start: 'top 78%',
+        start: 'top 82%',
         toggleActions: 'play none none none'
       }
     });
 
-    // Row slides up + fades in
-    tl.to(row, {
-      opacity: 1, y: 0,
-      duration: 0.7,
-      ease: 'power3.out',
-      delay: idx * 0.04
-    });
+    // Row slides up + fades in from opacity 0
+    tl.fromTo(row,
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: idx * 0.03 }
+    );
 
     // SVG paths draw in after row appears
     const paths = row.querySelectorAll('.why-svg-path');
     if (paths.length) {
-      // measure actual length per path
       paths.forEach(path => {
         try {
           const len = path.getTotalLength ? path.getTotalLength() : 200;
@@ -606,6 +628,12 @@ function initWhyApartAnimations() {
       scrollTrigger: { trigger: wrap, start: 'top 90%' }
     });
   }
+
+  setTimeout(() => {
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
+  }, 100);
 }
 
 // ─── Services hover modal ────────────────
@@ -651,6 +679,15 @@ function initServiceModal() {
       isActive = false;
     });
   });
+
+  const svcSection = document.querySelector('.section-services');
+  if (svcSection) {
+    svcSection.addEventListener('mouseleave', () => {
+      modal.classList.remove('active');
+      cursor.classList.remove('active');
+      isActive = false;
+    });
+  }
 
   window.addEventListener('mousemove', e => {
     if (!isActive) return;
