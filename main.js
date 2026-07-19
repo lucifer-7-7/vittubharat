@@ -1223,25 +1223,64 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ─── Hero Sound Icon ──────────────────────
+// ─── Hero Sound Icon & Audio Player ──────────────────────
 function initHeroSound() {
   const btn = document.getElementById('hero-sound-btn');
-  if (!btn) return;
+  const audio = document.getElementById('hero-bg-audio');
+  const heroSection = document.getElementById('hero');
+  if (!btn || !audio) return;
 
-  let isMuted = false;
+  let isPlaying = false;
 
-  btn.addEventListener('click', () => {
-    isMuted = !isMuted;
-    btn.classList.toggle('muted', isMuted);
+  function playAudio() {
+    audio.play().then(() => {
+      isPlaying = true;
+      btn.classList.remove('muted');
+      btn.setAttribute('aria-label', 'Mute');
+    }).catch(err => {
+      console.log('Audio playback blocked:', err);
+    });
+  }
+
+  function pauseAudio() {
+    audio.pause();
+    isPlaying = false;
+    btn.classList.add('muted');
+    btn.setAttribute('aria-label', 'Unmute');
+  }
+
+  function toggleAudio() {
+    if (isPlaying) {
+      pauseAudio();
+    } else {
+      playAudio();
+    }
 
     // Trigger shake animation on the SVG
     btn.classList.remove('shake');
     void btn.offsetWidth; // reflow to restart animation
     btn.classList.add('shake');
     btn.addEventListener('animationend', () => btn.classList.remove('shake'), { once: true });
+  }
 
-    btn.setAttribute('aria-label', isMuted ? 'Unmute' : 'Mute');
+  // Button click toggle
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleAudio();
   });
+
+  // Play audio on hero section press or touch
+  if (heroSection) {
+    const handleHeroInteraction = (e) => {
+      if (e.target.closest('a, button')) return;
+      if (!isPlaying) {
+        playAudio();
+      }
+    };
+
+    heroSection.addEventListener('click', handleHeroInteraction);
+    heroSection.addEventListener('touchstart', handleHeroInteraction, { passive: true });
+  }
 }
 
 initHeroSound();
