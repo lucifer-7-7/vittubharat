@@ -636,63 +636,126 @@ function initWhyApartAnimations() {
   }, 100);
 }
 
-// ─── Services hover modal ────────────────
+// ─── Services Ultra-Simple GSAP Accordion ────
+// ─── Services Ultra-Smooth GSAP Accordion ────
 function initServiceModal() {
-  const rows = document.querySelectorAll('.svc-row');
-  const modal = document.getElementById('svc-modal');
-  const track = document.getElementById('svc-modal-track');
-  const cursor = document.getElementById('svc-cursor');
-  if (!rows.length || !modal || !track || !cursor) return;
+  const items = document.querySelectorAll('.svc-acc-item');
+  if (!items.length) return;
 
-  const slideCount = track.querySelectorAll('.svc-modal-slide').length;
-  const slideH = 260;
-  track.style.height = (slideCount * slideH) + 'px';
+  let hoverTimer = null;
 
-  let activeIndex = 0;
-  let isActive = false;
+  function closeItem(item) {
+    if (!item.classList.contains('active')) return;
+    item.classList.remove('active');
 
-  // GSAP quickTo for smooth following — fall back to direct set if no GSAP
-  let moveModal, moveCursor;
-  if (typeof gsap !== 'undefined') {
-    const xModal = gsap.quickTo(modal, 'left', { duration: 0.8, ease: 'power3' });
-    const yModal = gsap.quickTo(modal, 'top', { duration: 0.8, ease: 'power3' });
-    const xCursor = gsap.quickTo(cursor, 'left', { duration: 0.5, ease: 'power3' });
-    const yCursor = gsap.quickTo(cursor, 'top', { duration: 0.5, ease: 'power3' });
-    moveModal = (x, y) => { xModal(x); yModal(y); };
-    moveCursor = (x, y) => { xCursor(x); yCursor(y); };
-  } else {
-    moveModal = (x, y) => { modal.style.left = x + 'px'; modal.style.top = y + 'px'; };
-    moveCursor = (x, y) => { cursor.style.left = x + 'px'; cursor.style.top = y + 'px'; };
+    const header = item.querySelector('.svc-acc-header');
+    const body = item.querySelector('.svc-acc-body');
+    const icon = item.querySelector('.svc-plus-icon');
+
+    if (header) header.setAttribute('aria-expanded', 'false');
+
+    if (typeof gsap !== 'undefined') {
+      gsap.killTweensOf(body);
+      gsap.killTweensOf(icon);
+
+      gsap.to(body, {
+        height: 0,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power3.inOut',
+        onComplete: () => {
+          body.style.display = 'none';
+        }
+      });
+
+      if (icon) gsap.to(icon, { rotate: 0, duration: 0.5, ease: 'power3.inOut' });
+    } else {
+      body.style.display = 'none';
+    }
   }
 
-  rows.forEach(row => {
-    row.addEventListener('mouseenter', () => {
-      activeIndex = parseInt(row.dataset.index, 10) || 0;
-      track.style.top = (-activeIndex * slideH) + 'px';
-      modal.classList.add('active');
-      cursor.classList.add('active');
-      isActive = true;
-    });
-    row.addEventListener('mouseleave', () => {
-      modal.classList.remove('active');
-      cursor.classList.remove('active');
-      isActive = false;
-    });
-  });
+  function openItem(targetItem) {
+    items.forEach(item => {
+      const isTarget = item === targetItem;
+      const header = item.querySelector('.svc-acc-header');
+      const body = item.querySelector('.svc-acc-body');
+      const icon = item.querySelector('.svc-plus-icon');
+      const img = item.querySelector('.svc-acc-img img');
+      const desc = item.querySelector('.svc-acc-desc');
+      const btn = item.querySelector('.svc-acc-btn');
 
-  const svcSection = document.querySelector('.section-services');
-  if (svcSection) {
-    svcSection.addEventListener('mouseleave', () => {
-      modal.classList.remove('active');
-      cursor.classList.remove('active');
-      isActive = false;
+      if (isTarget) {
+        if (!item.classList.contains('active')) {
+          item.classList.add('active');
+          if (header) header.setAttribute('aria-expanded', 'true');
+
+          if (typeof gsap !== 'undefined') {
+            gsap.killTweensOf(body);
+            gsap.killTweensOf(icon);
+
+            body.style.display = 'block';
+            body.style.height = 'auto';
+            body.style.opacity = '0';
+            const naturalH = body.offsetHeight;
+            body.style.height = '0px';
+
+            // Ultra-smooth opening height & opacity
+            gsap.to(body, {
+              height: naturalH,
+              opacity: 1,
+              duration: 0.7,
+              ease: 'power3.out',
+              onComplete: () => { body.style.height = 'auto'; }
+            });
+
+            // Smooth plus icon rotation
+            if (icon) gsap.to(icon, { rotate: 45, duration: 0.6, ease: 'power3.out' });
+
+            // Silky smooth image zoom & reveal
+            if (img) gsap.fromTo(img, { scale: 1.08, opacity: 0.4 }, { scale: 1, opacity: 1, duration: 0.8, ease: 'power3.out' });
+
+            // Staggered text & button slide up
+            if (desc) gsap.fromTo(desc, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, delay: 0.15, ease: 'power3.out' });
+            if (btn) gsap.fromTo(btn, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, delay: 0.25, ease: 'power3.out' });
+          } else {
+            body.style.display = 'block';
+          }
+        }
+      } else {
+        closeItem(item);
+      }
     });
   }
 
-  window.addEventListener('mousemove', e => {
-    if (!isActive) return;
-    moveModal(e.clientX, e.clientY);
-    moveCursor(e.clientX, e.clientY);
+  const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+  items.forEach(item => {
+    const header = item.querySelector('.svc-acc-header');
+    if (!header) return;
+
+    if (!isTouch) {
+      item.addEventListener('mouseenter', () => {
+        if (hoverTimer) clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(() => {
+          openItem(item);
+        }, 80);
+      });
+
+      item.addEventListener('mouseleave', () => {
+        if (hoverTimer) clearTimeout(hoverTimer);
+      });
+    }
+
+    header.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (hoverTimer) clearTimeout(hoverTimer);
+      const isOpen = item.classList.contains('active');
+      if (isOpen) {
+        closeItem(item);
+      } else {
+        openItem(item);
+      }
+    });
   });
 }
 
@@ -1395,3 +1458,165 @@ function initTextRoll() {
 }
 
 initTextRoll();
+
+// ─── Why Us Mobile Stack Cards Animation ────
+function initWhyMobileStack() {
+  const container = document.getElementById('why-list');
+  if (!container) return;
+
+  const rows = Array.from(container.querySelectorAll('[data-why-row]'));
+  if (rows.length < 2) return;
+
+  let activeIndex = 0;
+  let autoTimer = null;
+  let isSwiping = false;
+  let startX = 0;
+  let currentX = 0;
+  let isAnimating = false;
+
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  function updateStack(animate = true) {
+    if (!isMobile()) {
+      rows.forEach(row => {
+        row.style.transform = '';
+        row.style.opacity = '';
+        row.style.zIndex = '';
+        row.style.pointerEvents = '';
+      });
+      return;
+    }
+
+    const total = rows.length;
+    rows.forEach((row, i) => {
+      let relIndex = (i - activeIndex + total) % total;
+
+      let zIndex = total - relIndex;
+      let scale = Math.max(0.8, 1 - relIndex * 0.05);
+      let translateY = relIndex * 12;
+      let rotate = relIndex === 1 ? -3 : relIndex === 2 ? 3 : 0;
+      let opacity = relIndex <= 2 ? 1 : 0;
+      let pointerEvents = relIndex === 0 ? 'auto' : 'none';
+
+      row.style.zIndex = zIndex;
+      row.style.pointerEvents = pointerEvents;
+
+      if (typeof gsap !== 'undefined' && animate) {
+        gsap.to(row, {
+          x: 0,
+          y: translateY,
+          scale: scale,
+          rotate: rotate,
+          opacity: opacity,
+          duration: 0.5,
+          ease: 'power2.out'
+        });
+      } else {
+        row.style.transform = `translate3d(0px, ${translateY}px, 0px) scale(${scale}) rotate(${rotate}deg)`;
+        row.style.opacity = opacity;
+      }
+    });
+  }
+
+  function nextCard(direction = -1) {
+    if (!isMobile() || isAnimating) return;
+    isAnimating = true;
+
+    const currentCard = rows[activeIndex];
+    const nextIndex = (activeIndex + 1) % rows.length;
+
+    if (typeof gsap !== 'undefined') {
+      const exitX = direction * (window.innerWidth * 0.9);
+      const exitRot = direction * 18;
+
+      gsap.to(currentCard, {
+        x: exitX,
+        rotate: exitRot,
+        opacity: 0,
+        duration: 0.45,
+        ease: 'power2.in',
+        onComplete: () => {
+          activeIndex = nextIndex;
+          updateStack(true);
+          setTimeout(() => { isAnimating = false; }, 150);
+        }
+      });
+    } else {
+      activeIndex = nextIndex;
+      updateStack(false);
+      isAnimating = false;
+    }
+  }
+
+  function startAutoPlay() {
+    stopAutoPlay();
+    if (!isMobile()) return;
+    autoTimer = setInterval(() => {
+      nextCard(-1);
+    }, 4000);
+  }
+
+  function stopAutoPlay() {
+    if (autoTimer) clearInterval(autoTimer);
+  }
+
+  container.addEventListener('touchstart', (e) => {
+    if (!isMobile()) return;
+    stopAutoPlay();
+    startX = e.touches[0].clientX;
+    currentX = startX;
+    isSwiping = true;
+  }, { passive: true });
+
+  container.addEventListener('touchmove', (e) => {
+    if (!isSwiping || !isMobile() || isAnimating) return;
+    currentX = e.touches[0].clientX;
+    const deltaX = currentX - startX;
+    const currentCard = rows[activeIndex];
+    const rot = (deltaX / window.innerWidth) * 22;
+
+    if (currentCard && typeof gsap !== 'undefined') {
+      gsap.set(currentCard, {
+        x: deltaX,
+        rotate: rot
+      });
+    }
+  }, { passive: true });
+
+  container.addEventListener('touchend', () => {
+    if (!isSwiping || !isMobile() || isAnimating) return;
+    isSwiping = false;
+    const deltaX = currentX - startX;
+
+    if (Math.abs(deltaX) > 50) {
+      nextCard(deltaX < 0 ? -1 : 1);
+    } else {
+      const currentCard = rows[activeIndex];
+      if (currentCard && typeof gsap !== 'undefined') {
+        gsap.to(currentCard, {
+          x: 0,
+          rotate: 0,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      }
+    }
+    startAutoPlay();
+  });
+
+  window.addEventListener('resize', () => {
+    updateStack(false);
+    if (isMobile()) {
+      startAutoPlay();
+    } else {
+      stopAutoPlay();
+    }
+  });
+
+  updateStack(false);
+  if (isMobile()) startAutoPlay();
+}
+
+initWhyMobileStack();
