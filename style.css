@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 /* =========================================
    VITTU BHARAT ASSOCIATES LLP — style.css
    Clean · Light · Spacious
@@ -41,7 +43,7 @@ html {
 }
 
 body {
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
@@ -49,7 +51,7 @@ body {
   line-height: 1.7;
   font-size: 17px;
   font-weight: 400;
-  letter-spacing: 0.005em;
+  letter-spacing: -0.01em;
 }
 
 img {
@@ -721,7 +723,7 @@ h4 {
   font-weight: 300;
   line-height: 0.96;
   color: #fff;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   text-align: center;
   word-break: keep-all;
   margin-top: 1vh;
@@ -1089,9 +1091,10 @@ h4 {
 
 /* ---------- SERVICES — animated hover modal ---------- */
 .section-services {
-  padding: 80px 0 120px;
-  background: var(--bg-2);
+  padding: 100px 0 140px;
+  background: var(--bg);
   overflow: hidden;
+  position: relative;
 }
 
 .svc-wrap {
@@ -1104,27 +1107,28 @@ h4 {
 .svc-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 48px;
+  align-items: flex-end;
+  margin-bottom: 56px;
   gap: 48px;
+  padding-bottom: 24px;
 }
 
 .svc-heading {
-  font-size: clamp(48px, 6vw, 80px);
+  font-size: clamp(48px, 6.5vw, 84px);
   font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1;
+  letter-spacing: -0.045em;
+  line-height: 0.96;
   color: var(--text);
   flex-shrink: 0;
 }
 
 .svc-sub {
-  max-width: 400px;
-  font-size: 15px;
+  max-width: 420px;
+  font-size: 16px;
   font-weight: 400;
-  color: var(--text-muted);
-  line-height: 1.7;
-  padding-top: 8px;
+  color: var(--text-2);
+  line-height: 1.65;
+  letter-spacing: -0.01em;
 }
 
 /* rows */
@@ -1137,15 +1141,15 @@ h4 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 28px 0;
-  border-top: 1px solid var(--border);
+  padding: 32px 0;
+  border-top: 1px solid var(--border-2);
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 300ms var(--ease);
+  transition: opacity 300ms var(--ease), padding 300ms var(--ease);
 }
 
 .svc-list:hover .svc-row {
-  opacity: 0.4;
+  opacity: 0.35;
 }
 
 .svc-list:hover .svc-row:hover {
@@ -1153,41 +1157,46 @@ h4 {
 }
 
 .svc-row:last-child {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-2);
 }
 
 .svc-row-title {
-  font-size: clamp(20px, 2.8vw, 38px);
+  font-size: clamp(22px, 3vw, 42px);
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
   color: var(--text);
-  transition: transform 300ms var(--ease);
+  transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1), color 350ms ease;
 }
 
 .svc-row:hover .svc-row-title {
-  transform: translateX(10px);
+  transform: translateX(14px);
+  color: var(--text);
 }
 
 .svc-row-sub {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--text-muted);
-  transition: transform 300ms var(--ease);
+  color: var(--text-2);
+  letter-spacing: -0.01em;
+  transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1), color 350ms ease;
 }
 
 .svc-row:hover .svc-row-sub {
-  transform: translateX(10px);
+  transform: translateX(14px);
+  color: var(--text);
 }
 
 /* hover modal */
 .svc-modal {
   position: fixed;
-  width: 340px;
-  height: 260px;
+  width: 360px;
+  height: 270px;
   pointer-events: none;
   overflow: hidden;
   z-index: 300;
-  border-radius: 16px;
+  border-radius: 20px;
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.06);
   transform: translate(-50%, -50%) scale(0);
   transition: transform 380ms cubic-bezier(0.76, 0, 0.24, 1), opacity 300ms ease;
   opacity: 0;
@@ -1210,7 +1219,7 @@ h4 {
 
 .svc-modal-slide {
   width: 100%;
-  height: 260px;
+  height: 270px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1227,14 +1236,15 @@ h4 {
 /* cursor dot */
 .svc-cursor {
   position: fixed;
-  width: 72px;
-  height: 72px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
-  background: var(--text, #0f172a);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  background: var(--text);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1245,6 +1255,7 @@ h4 {
   opacity: 0;
   top: 0;
   left: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .svc-cursor.active {
@@ -5154,6 +5165,7 @@ h4 {
   }
 
   .section-overview,
+  .section-services,
   .section-levels,
   .section-stay,
   .section-experience,
@@ -5166,6 +5178,42 @@ h4 {
   .section-faq,
   .section-footer-cta {
     padding: 72px 24px;
+  }
+
+  .svc-wrap {
+    max-width: 100%;
+  }
+
+  .svc-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 36px;
+    padding-bottom: 0;
+  }
+
+  .svc-sub {
+    max-width: 100%;
+    font-size: 15px;
+  }
+
+  .svc-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 24px 0;
+  }
+
+  .svc-row-title {
+    font-size: 22px;
+  }
+
+  .svc-row-sub {
+    font-size: 13px;
+  }
+
+  .svc-cursor {
+    display: none;
   }
 
   .section-team {
