@@ -6043,3 +6043,231 @@ display: inline-block;
     grid-template-columns: 56px 1fr;
   }
 }
+
+
+/* ============================================
+   FRIENDLY ENQUIRY CTA (.fq) — soft white
+   ============================================ */
+
+.fq {
+  padding: 56px 16px;
+  background: var(--bg);
+}
+
+.fq-card {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  border-radius: 28px;
+  background:
+    radial-gradient(120% 90% at 8% 0%, #FBFCFE 0%, rgba(251, 252, 254, 0) 60%),
+    linear-gradient(180deg, #FDFDFE 0%, var(--bg-2) 100%);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 18px 44px -28px rgba(16, 24, 40, 0.18);
+  display: grid;
+  gap: 32px;
+}
+
+/* intro */
+.fq-badge {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: var(--radius-btn);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  margin-bottom: 16px;
+}
+
+.fq-title {
+  font-size: 25px;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 14px;
+  text-wrap: balance;
+}
+
+.fq-text {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-2);
+  margin: 0 0 16px;
+  max-width: 46ch;
+}
+
+.fq-reassure {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* form */
+.fq-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.fq-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.fq-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.fq-optional {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.fq-input {
+  width: 100%;
+  padding: 13px 15px;
+  border-radius: var(--radius-input);
+  border: 1px solid var(--border-2);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.4;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.fq-input::placeholder {
+  color: var(--text-muted);
+}
+
+.fq-input:hover {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+.fq-input:focus {
+  outline: none;
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(10, 10, 11, 0.08);
+}
+
+.fq-select {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239AA3B0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.fq-error {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #B42318;
+}
+
+/* actions */
+.fq-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.fq-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 14px 22px;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--border-2);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.15s var(--ease);
+}
+
+.fq-btn:hover {
+  background: var(--bg-3);
+}
+
+.fq-btn:active {
+  transform: translateY(1px);
+}
+
+.fq-btn:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+.fq-btn--solid {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  color: #fff;
+  flex: 1 1 auto;
+}
+
+.fq-btn--solid:hover {
+  background: var(--accent);
+}
+
+.fq-privacy {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+@media (min-width: 560px) {
+  .fq-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .fq-field--full,
+  .fq-error,
+  .fq-actions,
+  .fq-privacy {
+    grid-column: 1 / -1;
+  }
+
+  .fq-btn--solid {
+    flex: 0 0 auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .fq {
+    padding: 80px 24px;
+  }
+
+  .fq-card {
+    grid-template-columns: 1fr 1.05fr;
+    gap: 56px;
+    padding: 48px 44px;
+    align-items: start;
+  }
+
+  .fq-title {
+    font-size: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fq-input,
+  .fq-btn {
+    transition: none;
+  }
+}

@@ -1620,3 +1620,48 @@ function initWhyMobileStack() {
 }
 
 initWhyMobileStack();
+
+
+/* ── Friendly enquiry CTA — sends to WhatsApp ── */
+function initFriendlyEnquiry() {
+  document.querySelectorAll('.fq-form').forEach(function (form) {
+    const err = form.querySelector('.fq-error');
+
+    function fail(msg, field) {
+      if (err) {
+        err.textContent = msg;
+        err.hidden = false;
+      }
+      if (field) field.focus();
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (err) err.hidden = true;
+
+      const nameEl = form.querySelector('[name="name"]');
+      const phoneEl = form.querySelector('[name="phone"]');
+      const needEl = form.querySelector('[name="need"]');
+      const noteEl = form.querySelector('[name="note"]');
+
+      const name = nameEl.value.trim();
+      const phone = phoneEl.value.trim();
+
+      if (!name) return fail('Please tell us your name so we know who we are speaking to.', nameEl);
+
+      const digits = phone.replace(/\D/g, '');
+      if (digits.length < 10) return fail('Please enter a phone number we can reach you on.', phoneEl);
+
+      const note = noteEl && noteEl.value.trim();
+      const msg =
+        'Hi, I am ' + name + '. ' +
+        'I need help with: ' + needEl.value + '. ' +
+        (note ? note + '. ' : '') +
+        'My number is ' + phone + '.';
+
+      window.open('https://wa.me/919380939961?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+    });
+  });
+}
+
+initFriendlyEnquiry();
