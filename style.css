@@ -1304,9 +1304,15 @@ h4 {
 
 .svc-loan-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: 1fr;
   gap: 8px 24px;
   max-width: 600px;
+}
+
+@media (min-width: 640px) {
+  .svc-loan-list {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .svc-loan-list li {
@@ -6411,7 +6417,7 @@ h4 {
     background: var(--accent-2);
     border-color: var(--accent-2);
     color: #fff;
-    flex: 1 1 auto;
+    flex: 1 1 100%;
   }
 
   .fq-btn--solid:hover {
@@ -6432,13 +6438,17 @@ h4 {
 
     .fq-field--full,
     .fq-error,
-    .fq-actions,
     .fq-privacy {
       grid-column: 1 / -1;
     }
 
+    .fq-actions {
+      grid-column: 1 / -1;
+      flex-wrap: nowrap;
+    }
+
     .fq-btn--solid {
-      flex: 0 0 auto;
+      flex: 0 1 auto;
     }
   }
 
