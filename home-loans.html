@@ -327,46 +327,32 @@
       </div>
     </section>
 
-    <!-- PROCESS -->
-    <section class="lp-section lp-section--alt">
+    <!-- EXPERTISE TIMELINE -->
+    <section class="lp-section lp-expertise">
       <div class="lp-wrap">
-        <h2 class="lp-h2">How it works</h2>
-        <ol class="lp-steps">
-          <li class="lp-step">
-            <span class="lp-step-num">01</span>
-            <div>
-              <h3 class="lp-step-title">You bring your papers</h3>
-              <p class="lp-step-body">ITR, salary slips or business statements, and details of any loans you are
-                already paying. If something is missing, we tell you what to get.</p>
-            </div>
-          </li>
-          <li class="lp-step">
-            <span class="lp-step-num">02</span>
-            <div>
-              <h3 class="lp-step-title">We work out your real eligibility</h3>
-              <p class="lp-step-body">We read your ITR and income the way a credit officer reads it. We check your
-                existing liabilities and your credit history. Then we calculate what each bank will sanction under its
-                own policy.</p>
-            </div>
-          </li>
-          <li class="lp-step">
-            <span class="lp-step-num">03</span>
-            <div>
-              <h3 class="lp-step-title">We tell you the number</h3>
-              <p class="lp-step-body">You get a straight answer: this is your maximum at this bank, this is your
-                maximum at that one, and this is the one we recommend. If the number is lower than you hoped, we say so
-                and explain why.</p>
-            </div>
-          </li>
-          <li class="lp-step">
-            <span class="lp-step-num">04</span>
-            <div>
-              <h3 class="lp-step-title">We build the file and follow it through</h3>
-              <p class="lp-step-body">We structure the application the way that bank wants to see it, submit it, and
-                stay with it until sanction and disbursement. Our office handles the paperwork, not a third party.</p>
-            </div>
-          </li>
-        </ol>
+        <h2 class="lp-h2">Deep expertise, direct advantage</h2>
+        <div class="lp-expertise-grid">
+          <div class="lp-expertise-block">
+            <div class="lp-expertise-num">15+</div>
+            <h3 class="lp-expertise-title">Years inside banks</h3>
+            <p class="lp-expertise-text">Our team spent over a decade in bank credit analysis departments. We know how each lender reads your file.</p>
+          </div>
+          <div class="lp-expertise-block">
+            <div class="lp-expertise-num">7</div>
+            <h3 class="lp-expertise-title">Direct bank relationships</h3>
+            <p class="lp-expertise-text">We work directly with major lenders in Udupi and Mangalore. No middlemen. No delays. Direct access to decision-makers.</p>
+          </div>
+          <div class="lp-expertise-block">
+            <div class="lp-expertise-num">24</div>
+            <h3 class="lp-expertise-title">Hours to bank shortlist</h3>
+            <p class="lp-expertise-text">Bring your papers on a Monday morning. By Tuesday we have a ranked list of the banks most likely to approve you.</p>
+          </div>
+          <div class="lp-expertise-block">
+            <div class="lp-expertise-num">100%</div>
+            <h3 class="lp-expertise-title">File handled directly</h3>
+            <p class="lp-expertise-text">Your loan application gets personal attention from the person who evaluated it. No handoffs. No call centers.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -661,16 +647,16 @@
         });
       });
 
-      // Stagger process steps
-      gsap.utils.toArray('.lp-step').forEach((step, i) => {
-        gsap.from(step, {
+      // Stagger expertise blocks
+      gsap.utils.toArray('.lp-expertise-block').forEach((block, i) => {
+        gsap.from(block, {
           opacity: 0,
-          x: -20,
-          duration: 0.5,
+          y: 24,
+          duration: 0.6,
           delay: i * 0.1,
           scrollTrigger: {
-            trigger: step,
-            start: 'top 85%',
+            trigger: block,
+            start: 'top 80%',
             toggleActions: 'play none none none',
           },
         });
@@ -691,8 +677,8 @@
         });
       });
 
-      // Animate stat numbers on enter
-      gsap.utils.toArray('.lp-stat-num').forEach((num) => {
+      // Animate stat numbers and expertise numbers on enter
+      gsap.utils.toArray('.lp-stat-num, .lp-expertise-num').forEach((num) => {
         const text = num.textContent.trim();
         const numValue = parseInt(text.replace(/\D/g, '')) || 0;
         const suffix = text.replace(/\d+/g, '').trim();

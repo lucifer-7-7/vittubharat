@@ -5705,7 +5705,13 @@ h4 {
   }
 
   .lp-section {
-    padding: 48px 0;
+    padding: 56px 0;
+  }
+
+  @media (min-width: 768px) {
+    .lp-section {
+      padding: 72px 0;
+    }
   }
 
   .lp-section--alt {
@@ -6169,6 +6175,74 @@ h4 {
 
   .lp-inline-link:hover {
     border-color: var(--text);
+  }
+
+  /* expertise grid */
+  .lp-expertise {
+    padding: 56px 0;
+  }
+
+  @media (min-width: 768px) {
+    .lp-expertise {
+      padding: 72px 0;
+    }
+  }
+
+  .lp-expertise-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media (min-width: 640px) {
+    .lp-expertise-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .lp-expertise-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .lp-expertise-block {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-input);
+    background: var(--surface);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lp-expertise-block:hover {
+    border-color: var(--accent-2);
+    background: var(--bg-2);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .lp-expertise-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--accent-2);
+    margin: 0 0 12px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  .lp-expertise-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 8px;
+  }
+
+  .lp-expertise-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-2);
+    margin: 0;
   }
 
   /* facts */
