@@ -222,10 +222,20 @@ function initInstructorSlider() {
   let current = 0;
   let autoTimer = null;
 
+  const nameEl = document.getElementById('instr-active-name');
+  const bioEl = document.getElementById('instr-active-bio');
+
+  function updateText() {
+    const s = slides[current];
+    if (nameEl && s.dataset.name) nameEl.textContent = `${s.dataset.name} — ${s.dataset.role}`;
+    if (bioEl && s.dataset.bio) bioEl.textContent = s.dataset.bio;
+  }
+
   function goTo(idx) {
     slides[current].classList.remove('active');
     current = (idx + slides.length) % slides.length;
     slides[current].classList.add('active');
+    updateText();
   }
 
   function startAuto() {
@@ -236,6 +246,8 @@ function initInstructorSlider() {
   function stopAuto() {
     if (autoTimer) clearInterval(autoTimer);
   }
+
+  updateText();
 
   document.querySelectorAll('.instr-prev').forEach(btn => {
     btn.addEventListener('click', () => { goTo(current - 1); startAuto(); });

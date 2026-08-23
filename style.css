@@ -3640,12 +3640,12 @@ h4 {
 }
 
 /* team group section */
-.team-group { margin-bottom: 60px; }
+.team-group { margin-bottom: 48px; }
 .team-group:last-child { margin-bottom: 0; }
 
 .team-group-title {
   max-width: var(--container);
-  margin: 0 auto 24px;
+  margin: 0 auto 16px;
   padding: 0 24px;
   font-size: 12px;
   font-weight: 700;
@@ -3663,18 +3663,17 @@ h4 {
   gap: 0;
 }
 
-/* team member row - 1:1 avatar, name only, tap to expand bio */
+/* team member row - small square avatar, name only, tap to expand bio */
 .team-member {
   display: grid;
-  grid-template-columns: 64px 1fr 18px;
+  grid-template-columns: 40px 1fr 14px;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
   width: 100%;
-  padding: 14px 0;
+  padding: 9px 0;
+  border: none;
   border-top: 1px solid var(--border);
   background: none;
-  border-left: none;
-  border-right: none;
   text-align: left;
   font: inherit;
   color: inherit;
@@ -3688,11 +3687,12 @@ h4 {
 }
 
 .team-member-img {
-  width: 64px;
+  width: 40px;
   aspect-ratio: 1 / 1;
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
   background: var(--bg-2);
+  flex-shrink: 0;
 }
 
 .team-member-img img {
@@ -3708,7 +3708,7 @@ h4 {
 }
 
 .team-member-name {
-  font-size: 17px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text);
   margin: 0;
@@ -3716,10 +3716,10 @@ h4 {
 }
 
 .team-member-title {
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 600;
   color: var(--text-muted);
-  margin: 3px 0 0;
+  margin: 2px 0 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -3728,7 +3728,7 @@ h4 {
   display: grid;
   grid-template-rows: 0fr;
   overflow: hidden;
-  transition: grid-template-rows 0.28s var(--ease);
+  transition: grid-template-rows 0.32s var(--ease);
 }
 
 .team-member-body > * {
@@ -3736,10 +3736,11 @@ h4 {
 }
 
 .team-member-desc {
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.55;
   color: var(--text-2);
-  margin: 10px 0 0;
+  margin: 0;
+  padding-top: 8px;
   max-width: 52ch;
   opacity: 0;
   transition: opacity 0.2s var(--ease);
@@ -3751,12 +3752,14 @@ h4 {
 
 .team-member[aria-expanded="true"] .team-member-desc {
   opacity: 1;
-  transition-delay: 0.08s;
+  transition-delay: 0.1s;
 }
 
 .team-member-chevron {
   color: var(--text-muted);
   transition: transform 0.25s var(--ease);
+  align-self: start;
+  margin-top: 4px;
 }
 
 .team-member[aria-expanded="true"] .team-member-chevron {
@@ -3769,6 +3772,20 @@ h4 {
   .team-member-desc,
   .team-member-chevron {
     transition: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .team-member {
+    grid-template-columns: 48px 1fr 16px;
+  }
+
+  .team-member-img {
+    width: 48px;
+  }
+
+  .team-member-name {
+    font-size: 14px;
   }
 }
 
