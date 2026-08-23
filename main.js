@@ -1665,3 +1665,16 @@ function initFriendlyEnquiry() {
 }
 
 initFriendlyEnquiry();
+
+
+/* ── Team member — tap to expand bio ── */
+function initTeamAccordion() {
+  document.querySelectorAll('.team-member').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  });
+}
+
+initTeamAccordion();
