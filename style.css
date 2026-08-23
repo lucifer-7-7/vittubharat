@@ -5710,6 +5710,24 @@ h4 {
 
   .lp-section--alt {
     background: var(--bg-2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lp-section--alt::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255,255,255,0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .lp-section--alt > * {
+    position: relative;
+    z-index: 1;
   }
 
   .lp-h1 {
@@ -5884,8 +5902,35 @@ h4 {
     border-bottom: 1px solid var(--border);
   }
 
+  .lp-stats .lp-stat:nth-child(odd):nth-child(n+3) {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+
+  .lp-stats .lp-stat:nth-child(even):nth-child(n+4) {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+
+  @media (min-width: 768px) {
+    .lp-stats {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .lp-stats .lp-stat:nth-child(n+3) {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .lp-stats .lp-stat:not(:last-child) {
+      border-right: 1px solid var(--border);
+      padding-right: 24px;
+    }
+  }
+
   .lp-stat-num {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 800;
     letter-spacing: -0.02em;
     color: var(--text);
@@ -5930,11 +5975,12 @@ h4 {
   }
 
   .lp-step-num {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--accent-2);
     font-variant-numeric: tabular-nums;
     padding-top: 2px;
+    letter-spacing: 0.05em;
   }
 
   .lp-step-title {
@@ -5976,6 +6022,16 @@ h4 {
     padding: 18px;
     border-radius: var(--radius-input);
     background: var(--bg-2);
+    border: 1px solid var(--border);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+
+  .lp-card:hover {
+    background: var(--surface);
+    border-color: var(--accent-2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   }
 
   .lp-section--alt .lp-card {
