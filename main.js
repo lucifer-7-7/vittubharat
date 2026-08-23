@@ -1040,7 +1040,7 @@ function initEnquiryForm() {
   if (sendWA) {
     sendWA.addEventListener('click', () => {
       const msg = encodeURIComponent(buildMessage());
-      window.open(`https://wa.me/919731740060?text=${msg}`, '_blank');
+      window.open(`https://wa.me/919380939961?text=${msg}`, '_blank');
     });
   }
   if (sendEmail) {
