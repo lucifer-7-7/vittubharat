@@ -1681,7 +1681,7 @@ initFriendlyEnquiry();
 
 /* ── Team member — tap to expand bio ── */
 function initTeamAccordion() {
-  document.querySelectorAll('.team-member').forEach(function (btn) {
+  document.querySelectorAll('.team-member, .lead-row').forEach(function (btn) {
     btn.addEventListener('click', function () {
       const open = btn.getAttribute('aria-expanded') === 'true';
       btn.setAttribute('aria-expanded', open ? 'false' : 'true');
