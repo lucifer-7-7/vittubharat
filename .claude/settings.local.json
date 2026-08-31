@@ -1,7 +1,44 @@
 {
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:8787"
+  },
   "permissions": {
     "allow": [
-      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\seeke\\\\Downloads\\\\vittu\" -Recurse -File | Where-Object { $_.Extension -notmatch '\\\\.\\(png|jpg|jpeg|gif|ico|webp|svg\\)$' } | Select-Object -ExpandProperty FullName | Sort-Object)"
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\seeke\\\\Downloads\\\\vittu\" -Recurse -File | Where-Object { $_.Extension -notmatch '\\\\.\\(png|jpg|jpeg|gif|ico|webp|svg\\)$' } | Select-Object -ExpandProperty FullName | Sort-Object)",
+      "Bash(powershell -Command \"Start-Process \\(Get-Item 'index.html'\\).FullName\")",
+      "Bash(git checkout *)",
+      "WebFetch(domain:www.vittubharat.com)",
+      "Bash(python -c ' *)",
+      "Bash(git add *)",
+      "Bash(git push *)",
+      "Bash(awk 'NR==912,NR==962' index.html)",
+      "Bash(awk 'NR==3643,NR==3740' style.css)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3)",
+      "Bash(awk '/^\\\\.team-group \\\\{/,/^\\\\.team-card-name/' style.css)",
+      "Bash(awk '/<button class=\"team-member\"/,/<\\\\/button>/' index.html)",
+      "Bash(awk 'NR==925,NR==972' index.html)",
+      "Bash(git commit -m ' *)",
+      "Bash(git commit -m 'Fix form button stacking and loan list grid on mobile *)",
+      "Bash(git commit -m 'Enhance visual density on loan page: depth, texture, motion *)",
+      "Bash(git stash *)",
+      "Bash(cd *)",
+      "Bash(git reset *)",
+      "Bash(awk 'NR==862,NR==905' index.html)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/Users/seeke/.local/bin/headroom.EXE wrap selfheal --marker headroom-wrap-selfheal",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   }
 }
