@@ -2725,7 +2725,9 @@ h4 {
 
 .instr-nav {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
 }
 
 .instr-prev,
