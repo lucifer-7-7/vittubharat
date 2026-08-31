@@ -224,11 +224,15 @@ function initInstructorSlider() {
 
   const nameEl = document.getElementById('instr-active-name');
   const bioEl = document.getElementById('instr-active-bio');
+  const slideNameEl = document.getElementById('instr-slide-name');
+  const slideRoleEl = document.getElementById('instr-slide-role');
 
   function updateText() {
     const s = slides[current];
     if (nameEl && s.dataset.name) nameEl.textContent = `${s.dataset.name} — ${s.dataset.role}`;
     if (bioEl && s.dataset.bio) bioEl.textContent = s.dataset.bio;
+    if (slideNameEl && s.dataset.name) slideNameEl.textContent = s.dataset.name;
+    if (slideRoleEl && s.dataset.role) slideRoleEl.textContent = s.dataset.role;
   }
 
   function goTo(idx) {
