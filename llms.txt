@@ -116,6 +116,13 @@ Kaveri Online Services (kaveri.karnataka.gov.in), Bhoomi land records
 - [Cent to square feet converter](https://www.vittubharat.com/cent-to-square-feet.html): Converts
   cent, square feet, guntha, acre, square metre and square yard, with the local reference figures and the
   reasons a quoted extent can differ from the registered one
+- [DC conversion in Udupi](https://www.vittubharat.com/dc-conversion-udupi.html): Section 95
+  conversion, how to verify an order is genuine and complete, why the mutation entry matters as much as
+  the order, the 2025 two track process, and why a panchayat Form 9 is not an A khata. Reviewed by our
+  advocate.
+- [Encumbrance certificate and stamp duty](https://www.vittubharat.com/encumbrance-certificate-stamp-duty-karnataka.html):
+  How to pull an EC from Kaveri and read it, why 30 years rather than 13, what an EC cannot show, and how
+  stamp duty, the 2 percent registration fee and guidance value interact. Reviewed by our advocate.
 - [Home loans](https://www.vittubharat.com/home-loans.html): Loan eligibility, bank matching,
   and loan products, run by a former bank credit analyst
 
