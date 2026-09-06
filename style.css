@@ -8495,3 +8495,122 @@ h4 {
     font-size: 11.5px;
   }
 }
+
+/* ---------- Cent converter (Month 3 SEO) ---------- */
+.cv {
+  margin: 28px 0 0;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+  max-width: 560px;
+}
+
+.cv-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.cv-label {
+  flex: none;
+  width: 68px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cv-input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-input);
+}
+
+.cv-input:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 1px;
+}
+
+.cv-select {
+  cursor: pointer;
+}
+
+.cv-out {
+  display: block;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.cv-out-head {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cv-out-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cv-out-row:last-child {
+  border-bottom: none;
+}
+
+.cv-out-val {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.cv-out-unit {
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.cv-out-empty {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.cv-note {
+  margin: 16px 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+@media (max-width: 560px) {
+  .cv {
+    padding: 18px;
+  }
+
+  .cv-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .cv-label {
+    width: auto;
+  }
+}

@@ -113,6 +113,9 @@ Kaveri Online Services (kaveri.karnataka.gov.in), Bhoomi land records
 - [CRZ rules in Udupi and Mangalore](https://www.vittubharat.com/crz-rules-udupi.html): Which coastal
   and tidal riverside land is caught by the Coastal Regulation Zone, what each zone permits, and the
   verification steps before payment. Reviewed by our advocate.
+- [Cent to square feet converter](https://www.vittubharat.com/cent-to-square-feet.html): Converts
+  cent, square feet, guntha, acre, square metre and square yard, with the local reference figures and the
+  reasons a quoted extent can differ from the registered one
 - [Home loans](https://www.vittubharat.com/home-loans.html): Loan eligibility, bank matching,
   and loan products, run by a former bank credit analyst
 
