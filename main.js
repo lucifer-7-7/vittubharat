@@ -1078,7 +1078,8 @@ function initEnquiryForm() {
     sendWA.addEventListener('click', () => {
       logStepAnswers('enquiry-form-whatsapp');
       const msg = encodeURIComponent(buildMessage());
-      window.open(`https://wa.me/919380939961?text=${msg}`, '_blank');
+      const num = getWhatsAppNumber(answers[2] || '');
+      window.open(`https://wa.me/${num}?text=${msg}`, '_blank');
     });
   }
   if (sendEmail) {
@@ -1714,6 +1715,16 @@ function leadDevice() {
   return kind + ' · ' + screen.width + 'x' + screen.height + ' · ' + (navigator.language || '');
 }
 
+function getWhatsAppNumber(need) {
+  const routes = {
+    'Home Loan': '918749008900',
+    'Home loan': '918749008900',
+    'Legal Help': '917259838277',
+    'Legal or documentation': '917259838277'
+  };
+  return routes[need] || '919380939961';
+}
+
 /**
  * Send a copy of an enquiry to the sheet.
  * status: 'submitted' for a real send, 'partial' for someone who filled fields and left.
@@ -1842,7 +1853,8 @@ function initFriendlyEnquiry() {
       lead.sent = true;   // stops the partial-lead flush duplicating this row
       logLead(lead);
 
-      window.open('https://wa.me/919380939961?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+      const num = getWhatsAppNumber(needEl.value);
+      window.open('https://wa.me/' + num + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
     });
   });
 }
