@@ -1053,14 +1053,37 @@ function initEnquiryForm() {
   const sendWA = document.getElementById('eq-send-wa');
   const sendEmail = document.getElementById('eq-send-email');
 
+  const stepLead = { source: 'enquiry-form' };
+
+  function currentStepAnswers() {
+    stepLead.name = answers[0] || '';
+    stepLead.phone = answers[1] || '';
+    stepLead.need = answers[2] || '';
+    stepLead.budget = answers[3] || '';
+    stepLead.note = answers[4] || '';
+    return stepLead;
+  }
+
+  function logStepAnswers(source) {
+    const data = currentStepAnswers();
+    data.source = source;
+    data.sent = true;   // stops the partial-lead flush duplicating this row
+    logLead(data);
+  }
+
+  // If they type a phone number and then leave without sending, still save it.
+  trackPartialLead(currentStepAnswers);
+
   if (sendWA) {
     sendWA.addEventListener('click', () => {
+      logStepAnswers('enquiry-form-whatsapp');
       const msg = encodeURIComponent(buildMessage());
       window.open(`https://wa.me/919380939961?text=${msg}`, '_blank');
     });
   }
   if (sendEmail) {
     sendEmail.addEventListener('click', () => {
+      logStepAnswers('enquiry-form-email');
       const body = encodeURIComponent(buildMessage());
       const sub = encodeURIComponent('Property Enquiry from vittubharat.com');
       window.open(`mailto:info@vittubharat.com?subject=${sub}&body=${body}`);
@@ -1638,10 +1661,150 @@ function initWhyMobileStack() {
 initWhyMobileStack();
 
 
+/* ── Lead logging — keeps a copy of every enquiry before it leaves for WhatsApp ── */
+// Paste the Google Apps Script web app URL here (see LEAD-TRACKING.md).
+const LEAD_LOG_URL = 'https://script.google.com/macros/s/AKfycbzpqwhUGSZ5-YYM3NxZxSJUFa6EbKmiG1kqk10RkQySbRS7EaqjaqChlltEtV1WubdxNA/exec';
+
+// One id per browser tab, so partial and final rows for the same person group together.
+const LEAD_SESSION_ID = (function () {
+  try {
+    let id = sessionStorage.getItem('vb_lead_session');
+    if (!id) {
+      id = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+      sessionStorage.setItem('vb_lead_session', id);
+    }
+    return id;
+  } catch (e) {
+    return 'nostore-' + Math.random().toString(36).slice(2, 8);
+  }
+})();
+
+const LEAD_STARTED_AT = Date.now();
+
+// Where the visitor came from: ad campaign params are remembered for the whole visit,
+// even if they land on an ad page and enquire from a different one.
+const LEAD_CAMPAIGN = (function () {
+  const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
+  let stored = {};
+  try { stored = JSON.parse(sessionStorage.getItem('vb_lead_campaign') || '{}'); } catch (e) { /* ignore */ }
+
+  const params = new URLSearchParams(location.search);
+  let found = false;
+  keys.forEach(function (k) {
+    const v = params.get(k);
+    if (v) { stored[k] = v; found = true; }
+  });
+  if (found) {
+    try { sessionStorage.setItem('vb_lead_campaign', JSON.stringify(stored)); } catch (e) { /* ignore */ }
+  }
+  return stored;
+})();
+
+function leadCampaignSummary() {
+  const parts = [];
+  Object.keys(LEAD_CAMPAIGN).forEach(function (k) {
+    parts.push(k + '=' + LEAD_CAMPAIGN[k]);
+  });
+  return parts.join(' | ');
+}
+
+function leadDevice() {
+  const ua = navigator.userAgent || '';
+  const kind = /Mobi|Android|iPhone|iPad/i.test(ua) ? 'Mobile' : 'Desktop';
+  return kind + ' · ' + screen.width + 'x' + screen.height + ' · ' + (navigator.language || '');
+}
+
+/**
+ * Send a copy of an enquiry to the sheet.
+ * status: 'submitted' for a real send, 'partial' for someone who filled fields and left.
+ */
+function logLead(data, status) {
+  if (!LEAD_LOG_URL) return;
+
+  const payload = JSON.stringify({
+    name: data.name || '',
+    phone: data.phone || '',
+    need: data.need || '',
+    budget: data.budget || '',
+    note: data.note || '',
+    source: data.source || '',
+    status: status || 'submitted',
+    page: location.pathname,
+    pageTitle: document.title,
+    referrer: document.referrer || '',
+    campaign: leadCampaignSummary(),
+    device: leadDevice(),
+    secondsOnSite: Math.round((Date.now() - LEAD_STARTED_AT) / 1000),
+    session: LEAD_SESSION_ID,
+    at: new Date().toISOString()
+  });
+
+  // sendBeacon survives the tab switch to WhatsApp; fetch is the fallback.
+  try {
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(LEAD_LOG_URL, new Blob([payload], { type: 'text/plain;charset=UTF-8' }));
+      return;
+    }
+  } catch (e) { /* fall through */ }
+
+  fetch(LEAD_LOG_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    keepalive: true,
+    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+    body: payload
+  }).catch(function () { /* never block the enquiry */ });
+}
+
+/**
+ * Register a form whose answers should be saved even if the visitor never presses send.
+ * getData() must return the same shape logLead() takes.
+ */
+const leadPartialSources = [];
+
+function trackPartialLead(getData) {
+  leadPartialSources.push(getData);
+}
+
+function flushPartialLeads() {
+  leadPartialSources.forEach(function (getData) {
+    let data;
+    try { data = getData(); } catch (e) { return; }
+    if (!data || data.sent) return;
+    // Only worth saving if we can actually call them back.
+    const digits = (data.phone || '').replace(/\D/g, '');
+    if (digits.length < 10) return;
+    logLead(data, 'partial');
+    data.sent = true;
+  });
+}
+
+document.addEventListener('visibilitychange', function () {
+  if (document.visibilityState === 'hidden') flushPartialLeads();
+});
+window.addEventListener('pagehide', flushPartialLeads);
+
 /* ── Friendly enquiry CTA — sends to WhatsApp ── */
 function initFriendlyEnquiry() {
   document.querySelectorAll('.fq-form').forEach(function (form) {
     const err = form.querySelector('.fq-error');
+
+    const fqLead = { source: 'quick-enquiry' };
+
+    function currentValues() {
+      const get = function (n) {
+        const el = form.querySelector('[name="' + n + '"]');
+        return el ? el.value.trim() : '';
+      };
+      fqLead.name = get('name');
+      fqLead.phone = get('phone');
+      fqLead.need = get('need');
+      fqLead.note = get('note');
+      return fqLead;
+    }
+
+    // If they fill the form and wander off without submitting, still save it.
+    trackPartialLead(currentValues);
 
     function fail(msg, field) {
       if (err) {
@@ -1674,6 +1837,10 @@ function initFriendlyEnquiry() {
         'I need help with: ' + needEl.value + '. ' +
         (note ? note + '. ' : '') +
         'My number is ' + phone + '.';
+
+      const lead = currentValues();
+      lead.sent = true;   // stops the partial-lead flush duplicating this row
+      logLead(lead);
 
       window.open('https://wa.me/919380939961?text=' + encodeURIComponent(msg), '_blank', 'noopener');
     });
