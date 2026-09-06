@@ -1,5 +1,11 @@
 # SEO Plan — Vittu Bharat (Udupi / Mangalore Real Estate)
 
+> **Status as of 6 September 2026.** Week 1, Week 2 and the Month 2 and Month 3
+> build items are done and committed. The site went from 6 pages to 13, and from
+> roughly 16,000 words to 32,900. What remains is work only you can do: the three
+> registration numbers, the Google Business Profile, review collection, images,
+> and Search Console. Those are listed in "What is left for you" at the bottom.
+
 Audited: 6 pages, robots.txt, sitemap.xml, schema markup, image weights, live Google SERPs.
 Written plain. No jargon without a simple meaning next to it.
 
@@ -252,3 +258,43 @@ Honest timeline: local pack and long-tail movement in **6–10 weeks**; competit
 You will never out-list 99acres. You can out-trust them.
 They have inventory. You have an advocate, a banker, an address, and named faces.
 Win on **service + place + proof**, in the **Udupi wards** the portals cannot describe.
+
+---
+
+## WHAT HAS BEEN DONE (6 September 2026)
+
+Five commits, in order:
+
+| Commit | What |
+|---|---|
+| `273f50f` | Week 1: removed the fake 4.8/120 rating, replaced stock testimonial photos, keyword H1, phone normalised, dateModified on every page, zero-fee promise surfaced on the loan page |
+| `6c3d4bb` | Week 2: single `#organization` entity graph, Service schema, llms.txt, AI crawlers named in robots.txt, footer legal block, internal links from 5–6 to 16–28 per page |
+| `944579e` | Seller page — the biggest gap on the site |
+| `b8fbf6f` | Mangalore page and NRI page |
+| `d515f15`, `b5dcc9d`, `3839d88` | Legal hub: CRZ, cent converter, DC conversion, EC and stamp duty |
+
+**Pages now live (13):**
+
+Core: index, about, property-in-udupi, flats-for-sale-udupi, sites-for-sale-manipal, home-loans
+New revenue pages: sell-property-udupi, property-in-mangalore, nri-property-udupi
+Legal hub: crz-rules-udupi, dc-conversion-udupi, encumbrance-certificate-stamp-duty-karnataka
+Tool: cent-to-square-feet
+
+**Three pages carry `reviewedBy` naming the advocate** — CRZ, DC conversion, and EC/stamp duty. That is the E-E-A-T signal Google looks for on property topics, and no competing local page has it.
+
+**Crawler surface:** llms.txt at root with verified facts and quotable figures; robots.txt naming GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot, Applebot-Extended and others individually; sitemap with 13 URLs and image entries; every page linked to llms.txt from its head.
+
+---
+
+## WHAT IS LEFT FOR YOU
+
+These cannot be done from the code. In priority order:
+
+1. **Fill the three registration numbers.** Every footer has `data-fill="llpin"`, `data-fill="gstin"` and `data-fill="rera"` showing an em dash. Search for `data-fill` and replace. Verifiable identity is a real ranking and trust signal, and the placeholders currently look worse than nothing.
+2. **Google Business Profile.** Complete it to 100 percent, primary category *Real Estate Agency*, list every service, post photos weekly. This is roughly 32 percent of local pack ranking and it is the single highest-return thing left.
+3. **Collect reviews.** Target 25 in 90 days from past clients. Ask them to name the service and the place in their own words — Google's AI now mines review text for keywords. Only after real reviews exist should `aggregateRating` ever come back.
+4. **Images.** hero.jpg 2.6MB, contact.png 2.4MB, three team jpegs at ~1.8MB, sidhvin.png 1.6MB, and a 3.5MB mp3 sitting in `/team` that ships for no reason. Convert to WebP under 150KB, delete the mp3.
+5. **Search Console and Bing Webmaster Tools.** Free, and you are currently flying blind. Submit the sitemap.
+6. **Citations.** Same name, address and phone on Justdial, Sulekha, IndiaMART, Bing Places, Apple Maps. The phone is now consistent sitewide as `+91 93809 39961` — match it exactly.
+
+Optional next build, when you want it: ward pages (Bannanje, Ambalpady, Santhekatte, Kunjibettu, Brahmavar), a rental page, and Kannada versions of the top pages.
