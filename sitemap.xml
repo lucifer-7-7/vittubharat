@@ -1,39 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
   <url>
     <loc>https://www.vittubharat.com/</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.vittubharat.com/logo/og-image.png</image:loc>
+      <image:title>Vittu Bharat Associates LLP, real estate in Udupi and Mangalore</image:title>
+    </image:image>
   </url>
+
   <url>
     <loc>https://www.vittubharat.com/about.html</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.vittubharat.com/team/sm/deepa.png</image:loc>
+      <image:title>Deepa R Kotian, Advocate and Executive Director, Vittu Bharat Associates LLP, Udupi</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.vittubharat.com/team/sm/ajay.png</image:loc>
+      <image:title>Ajay Pandit, Executive Director for Finance, Vittu Bharat Associates LLP, Udupi</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.vittubharat.com/team/sm/abhijit.png</image:loc>
+      <image:title>Abhijit Shetty, Executive Director, Vittu Bharat Associates LLP, Udupi</image:title>
+    </image:image>
   </url>
+
   <url>
     <loc>https://www.vittubharat.com/property-in-udupi.html</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
   <url>
     <loc>https://www.vittubharat.com/flats-for-sale-udupi.html</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://www.vittubharat.com/sites-for-sale-manipal.html</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://www.vittubharat.com/home-loans.html</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
 </urlset>

@@ -1,16 +1,83 @@
-User-agent: *
+# robots.txt — Vittu Bharat Associates LLP
+# Real estate agency, Bannanje, Udupi, Karnataka, India
+# Contact: info@vittubharat.com | +91 93809 39961
+# Structured summary for language models: https://www.vittubharat.com/llms.txt
+
+# ---------- Search engines ----------
+User-agent: Googlebot
 Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+# ---------- AI and answer engines ----------
+# We allow AI crawlers deliberately. Our legal and pricing pages carry government
+# sources and a checked-on date so they can be quoted accurately.
 
 User-agent: GPTBot
 Allow: /
 
-User-agent: PerplexityBot
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
 Allow: /
 
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
 User-agent: Google-Extended
 Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# ---------- Everyone else ----------
+User-agent: *
+Allow: /
+Disallow: /logo/
+Disallow: /scraped%20images/
 
 Sitemap: https://www.vittubharat.com/sitemap.xml

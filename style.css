@@ -8457,3 +8457,41 @@ h4 {
 .lp-hero .lp-disclaimer {
   color: rgba(255, 255, 255, 0.68);
 }
+
+/* ---------- Footer legal / trust block (Week 2 SEO) ---------- */
+.footer-legal {
+  padding: 22px 0 18px;
+  border-top: 1px solid var(--border);
+}
+
+.footer-legal-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 0 0 10px;
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+
+.footer-legal-item {
+  white-space: nowrap;
+}
+
+.footer-legal-note {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 78ch;
+}
+
+@media (max-width: 640px) {
+  .footer-legal-line {
+    gap: 6px 16px;
+    font-size: 11.5px;
+  }
+
+  .footer-legal-note {
+    font-size: 11.5px;
+  }
+}
